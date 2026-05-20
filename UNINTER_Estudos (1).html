@@ -1,0 +1,449 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>UNINTER — Estudos</title>
+<link href="https://fonts.googleapis.com/css2?family=Sora:wght@300;400;600;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --azul: #1a3a5c; --azul-m: #2e6da4; --azul-c: #d6e8f7;
+    --verde: #28a745; --verde-c: #d4edda;
+    --vermelho: #dc3545; --vermelho-c: #f8d7da;
+    --amarelo: #ffc107; --amarelo-c: #fff3cd;
+    --cinza: #f8f9fa; --cinza-b: #dee2e6; --texto: #333;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: 'Sora', sans-serif; background: #0f1e2e; color: var(--texto); min-height: 100vh; }
+  header { background: linear-gradient(135deg, #1a3a5c, #0f1e2e); color: white; padding: 20px; text-align: center; border-bottom: 3px solid var(--azul-m); position: sticky; top: 0; z-index: 100; }
+  header h1 { font-size: 1.3rem; font-weight: 700; letter-spacing: 1px; }
+  header p { font-size: 0.75rem; color: #8ab4d4; margin-top: 3px; }
+  .nav-materias { display: flex; gap: 8px; padding: 12px 16px; background: #162a3e; overflow-x: auto; border-bottom: 1px solid #1e3a54; }
+  .btn-materia { flex-shrink:0; padding: 7px 14px; border-radius: 20px; border: 1.5px solid var(--azul-m); background: transparent; color: #8ab4d4; font-family: 'Sora', sans-serif; font-size: 0.75rem; font-weight: 600; cursor: pointer; transition: all 0.2s; white-space: nowrap; }
+  .btn-materia.ativo { background: var(--azul-m); color: white; }
+  .container { padding: 16px; max-width: 800px; margin: 0 auto; }
+  .aulas-nav { display: flex; gap: 6px; margin-bottom: 16px; flex-wrap: wrap; }
+  .btn-aula { padding: 5px 12px; border-radius: 12px; border: 1.5px solid var(--cinza-b); background: white; color: var(--azul); font-family: 'Sora', sans-serif; font-size: 0.72rem; font-weight: 600; cursor: pointer; transition: all 0.2s; }
+  .btn-aula.ativo { background: var(--azul); color: white; border-color: var(--azul); }
+  .btn-aula.bloqueada { background: #e9ecef; color: #adb5bd; cursor: not-allowed; border-color: #dee2e6; }
+  .card { background: white; border-radius: 12px; margin-bottom: 14px; overflow: hidden; box-shadow: 0 2px 8px rgba(0,0,0,0.08); }
+  .card-header { background: var(--azul); color: white; padding: 12px 16px; font-size: 0.82rem; font-weight: 700; letter-spacing: 0.5px; text-transform: uppercase; }
+  .card-header.verde { background: var(--verde); }
+  .card-header.azul-m { background: var(--azul-m); }
+  .card-body { padding: 14px 16px; }
+  table { width: 100%; border-collapse: collapse; font-size: 0.82rem; margin: 8px 0; }
+  th { background: var(--azul-m); color: white; padding: 8px 10px; text-align: left; font-weight: 600; }
+  td { padding: 7px 10px; border-bottom: 1px solid var(--cinza-b); vertical-align: top; line-height: 1.4; }
+  tr:nth-child(even) td { background: var(--cinza); }
+  .destaque { background: var(--amarelo-c); border-left: 4px solid var(--amarelo); padding: 10px 12px; border-radius: 0 8px 8px 0; font-size: 0.83rem; margin: 8px 0; line-height: 1.5; }
+  .importante { background: var(--azul-c); border-left: 4px solid var(--azul-m); padding: 10px 12px; border-radius: 0 8px 8px 0; font-size: 0.83rem; margin: 8px 0; line-height: 1.5; color: var(--azul); }
+  p.corpo { font-size: 0.83rem; line-height: 1.6; margin: 6px 0; color: #444; }
+  .questao { border: 1.5px solid var(--cinza-b); border-radius: 10px; margin-bottom: 14px; overflow: hidden; }
+  .questao-header { background: var(--cinza); padding: 10px 14px; font-size: 0.82rem; font-weight: 700; color: var(--azul); border-bottom: 1px solid var(--cinza-b); }
+  .questao-body { padding: 12px 14px; }
+  .questao-enunciado { font-size: 0.85rem; font-weight: 600; color: var(--texto); margin-bottom: 10px; line-height: 1.5; }
+  .opcao { display: flex; align-items: flex-start; gap: 10px; padding: 8px 10px; border-radius: 8px; margin-bottom: 6px; cursor: pointer; border: 1.5px solid var(--cinza-b); transition: all 0.2s; font-size: 0.83rem; line-height: 1.4; }
+  .opcao:hover { border-color: var(--azul-m); background: var(--azul-c); }
+  .opcao.correta { border-color: var(--verde); background: var(--verde-c); color: #155724; }
+  .opcao.errada { border-color: var(--vermelho); background: var(--vermelho-c); color: #721c24; }
+  .opcao-letra { min-width: 24px; height: 24px; border-radius: 50%; background: var(--azul-m); color: white; display: flex; align-items: center; justify-content: center; font-size: 0.72rem; font-weight: 700; flex-shrink: 0; }
+  .opcao.correta .opcao-letra { background: var(--verde); }
+  .opcao.errada .opcao-letra { background: var(--vermelho); }
+  .campo-dissertativa { width: 100%; min-height: 80px; border: 1.5px solid var(--cinza-b); border-radius: 8px; padding: 10px; font-family: 'Sora', sans-serif; font-size: 0.83rem; color: var(--texto); resize: vertical; transition: border 0.2s; line-height: 1.5; }
+  .campo-dissertativa:focus { outline: none; border-color: var(--azul-m); }
+  .gabarito-box { display: none; margin-top: 10px; background: var(--verde-c); border: 1.5px solid var(--verde); border-radius: 8px; padding: 10px 12px; font-size: 0.82rem; color: #155724; line-height: 1.5; }
+  .gabarito-box.visivel { display: block; }
+  .btn { padding: 8px 16px; border-radius: 8px; border: none; font-family: 'Sora', sans-serif; font-size: 0.78rem; font-weight: 600; cursor: pointer; transition: all 0.2s; margin-top: 8px; }
+  .btn-gabarito { background: var(--cinza); color: var(--azul); border: 1.5px solid var(--cinza-b); }
+  .btn-gabarito:hover { background: var(--cinza-b); }
+  .progresso-bar { background: #e9ecef; border-radius: 10px; height: 6px; margin: 8px 0 14px; overflow: hidden; }
+  .progresso-fill { height: 100%; background: linear-gradient(90deg, var(--azul-m), var(--verde)); border-radius: 10px; transition: width 0.4s; }
+  .progresso-texto { font-size: 0.72rem; color: #6c757d; margin-bottom: 4px; }
+  .tabs { display: flex; margin-bottom: 16px; border-radius: 10px; overflow: hidden; border: 1.5px solid var(--cinza-b); }
+  .tab { flex: 1; padding: 10px; text-align: center; font-size: 0.8rem; font-weight: 600; cursor: pointer; background: white; color: #6c757d; border: none; font-family: 'Sora', sans-serif; transition: all 0.2s; }
+  .tab.ativo { background: var(--azul); color: white; }
+  .painel { display: none; }
+  .painel.ativo { display: block; }
+  .secao-titulo { font-size: 0.72rem; font-weight: 700; color: var(--azul-m); text-transform: uppercase; letter-spacing: 1px; margin: 18px 0 8px; padding-bottom: 4px; border-bottom: 2px solid var(--azul-c); }
+  .resultado-final { text-align: center; padding: 20px; border-radius: 12px; margin-top: 16px; font-weight: 700; }
+  .resultado-final.otimo { background: var(--verde-c); color: #155724; }
+  .resultado-final.bom { background: var(--amarelo-c); color: #856404; }
+  .resultado-final.estudar { background: var(--vermelho-c); color: #721c24; }
+  .resultado-final .nota { font-size: 2rem; }
+</style>
+</head>
+<body>
+<header>
+  <h1>📚 UNINTER — Portal de Estudos</h1>
+  <p>Sistemas de Segurança da Informação · 2026</p>
+</header>
+<div class="nav-materias">
+  <button class="btn-materia ativo">Seg. da Informação</button>
+  <button class="btn-materia" onclick="alert('Em breve')">Formação Cidadã</button>
+  <button class="btn-materia" onclick="alert('Em breve')">Produção Textual</button>
+  <button class="btn-materia" onclick="alert('Em breve')">Formação EAD</button>
+</div>
+<div class="container">
+  <div class="aulas-nav">
+    <button class="btn-aula ativo" onclick="selecionarAula(1)">Aula 1</button>
+    <button class="btn-aula" onclick="selecionarAula(2)">Aula 2</button>
+    <button class="btn-aula bloqueada">Aula 3</button>
+    <button class="btn-aula bloqueada">Aula 4</button>
+    <button class="btn-aula bloqueada">Aula 5</button>
+    <button class="btn-aula bloqueada">Aula 6</button>
+  </div>
+  <div id="conteudo"></div>
+</div>
+<script>
+const dados = {
+  1: {
+    titulo: "Aula 1 — Introdução aos Sistemas da Informação: Conceitos, Aplicações e Segurança",
+    professor: "Prof. Gian Carlo Brustolin",
+    resumo: `
+      <div class="secao-titulo">Introdução</div>
+      <div class="card"><div class="card-header azul-m">Contexto da Disciplina</div><div class="card-body">
+        <p class="corpo">A tecnologia da informação e comunicação (TIC) tornou-se uma necessidade essencial como água, energia e gás. Porém, ao contrário dessas, a segurança digital ainda não está sedimentada na cultura — por ser uma incorporação muito recente aos nossos hábitos.</p>
+        <div class="importante">⭐ Esta disciplina busca disseminar os conhecimentos básicos de segurança da informação, essenciais para qualquer profissional de tecnologia.</div>
+      </div></div>
+
+      <div class="secao-titulo">Tema 1 — Mundo Digital</div>
+      <div class="card"><div class="card-header">1.1 Informação e Conhecimento</div><div class="card-body">
+        <p class="corpo"><strong>Peter Drucker</strong> cunhou o termo <strong>"sociedade da informação"</strong> em <strong>1966</strong>, no livro <em>The Age of Discontinuity</em>. <strong>Manuel Castells (1999)</strong> estudou os impactos da sociedade da informação na economia, educação e comportamento humano, prevendo alterações significativas e irreversíveis.</p>
+        <p class="corpo">A grande disponibilidade de dados cria a <strong>ilusão de insignificância</strong> da informação. Não há rótulos que distingam informações válidas das inválidas — fácil ser vítima de <strong>desinformação</strong>. A facilidade de acesso também é aparente: a complexidade tecnológica é <strong>translúcida</strong> — só percebemos quando o processo entra em colapso.</p>
+        <div class="importante">⭐ Conclusão de Castells: o poder se desloca para quem <strong>gera, transmite e processa</strong> a informação. A capacidade de coletar informações corretas e transformá-las em conhecimento é o <strong>grande diferencial competitivo</strong> individual ou organizacional (Kolbe, 2017).</div>
+        <p class="corpo">As características que dão valor a um dado: <strong>integridade, disponibilidade e autenticidade</strong> — bases da segurança da informação.</p>
+      </div></div>
+
+      <div class="card"><div class="card-header">1.2 Informação e Tecnologia</div><div class="card-body">
+        <p class="corpo">O valor de uma empresa está menos em seus ativos físicos (máquinas, veículos, mobiliário) e mais no <strong>conhecimento do negócio</strong> (processos de produção, fornecedores, clientes). As fronteiras entre o valor empresarial e os repositórios digitais tornaram-se tênues.</p>
+        <p class="corpo">As áreas de TIC deixaram de ser apenas administradoras de hardware/software para <strong>analisar os efeitos e desafios que a tecnologia traz para a organização</strong> (Kolbe, 2017). Dados precisam ser preservados em instalações resilientes como <strong>datacenters</strong>.</p>
+        <p class="corpo">Sistemas modernos utilizam <strong>Big Data, aprendizado de máquina e redes neurais artificiais</strong> para extrair informações de alto valor — cujo sucesso depende fundamentalmente da qualidade e segurança dos dados.</p>
+      </div></div>
+
+      <div class="secao-titulo">Tema 2 — Conceitos de Sistemas da Informação</div>
+      <div class="card"><div class="card-header">Origem + Blocos de Hardware</div><div class="card-body">
+        <p class="corpo"><strong>Alan Turing</strong> criou a primeira máquina computacional operacional durante a Segunda Guerra Mundial para decodificar mensagens das tropas nazistas (máquina <strong>Enigma</strong>). Desde então, a necessidade de algoritmos mais complexos gera demanda por máquinas mais potentes.</p>
+        <table>
+          <tr><th>Bloco</th><th>Componentes</th><th>Função</th></tr>
+          <tr><td><strong>Processamento</strong></td><td>CPU + memórias (RAM/ROM)</td><td>Executa códigos seguindo o clock; toma decisões</td></tr>
+          <tr><td><strong>Comunicação</strong></td><td>WiFi, LTE, cabos metálicos/ópticos</td><td>Conecta ao mundo externo e a outros sistemas</td></tr>
+          <tr><td><strong>I/O Digital (GP I/O)</strong></td><td>Entradas e saídas digitais</td><td>Lê dados externos e aciona dispositivos</td></tr>
+          <tr><td><strong>I/O Analógicas</strong></td><td>Sensores e atuadores</td><td>Interface com o mundo físico</td></tr>
+        </table>
+        <p class="corpo">A velocidade do computador é determinada pelo <strong>clock</strong>. O funcionamento do bloco de processamento é idêntico em todas as máquinas: servidores, PCs, tablets, smartphones e dispositivos IoT — a diferença está na capacidade computacional.</p>
+        <div class="destaque">⚠️ Toda vez que dados são transmitidos pela rede, surgem novos riscos à integridade. Os <strong>protocolos de comunicação</strong> são técnicas de mitigação desses riscos.</div>
+      </div></div>
+
+      <div class="card"><div class="card-header">2.2 Sistemas da Informação (SIGs)</div><div class="card-body">
+        <p class="corpo">Sistema = <strong>"grupo de componentes inter-relacionados que trabalham rumo a uma meta comum"</strong> (Kolbe, 2017). Os <strong>SIGs (Sistemas de Informação Gerenciais)</strong> automatizam rotinas administrativas como emissão de notas fiscais, controle de estoque e folha de pagamento.</p>
+      </div></div>
+
+      <div class="secao-titulo">Tema 3 — Sistemas nas Corporações</div>
+      <div class="card"><div class="card-header">3.1 Empresas Privadas</div><div class="card-body">
+        <table>
+          <tr><th>Sistema</th><th>Nome completo</th><th>Função</th></tr>
+          <tr><td><strong>ERP / SIGE</strong></td><td>Enterprise Resource Planning</td><td>Integra todos os sistemas de gestão da empresa</td></tr>
+          <tr><td><strong>CRM</strong></td><td>Customer Relationship Management</td><td>Gerencia o relacionamento comercial com cada cliente</td></tr>
+          <tr><td><strong>BI</strong></td><td>Business Intelligence</td><td>Analisa e entende o desempenho empresarial</td></tr>
+        </table>
+        <p class="corpo">Com o crescimento dos dados, surgiram os <strong>datacenters</strong>. A migração para a nuvem aportou maior segurança com alta disponibilidade e elevados padrões de proteção.</p>
+      </div></div>
+
+      <div class="card"><div class="card-header">3.2 Empresas Públicas</div><div class="card-body">
+        <p class="corpo">Focos: <strong>transparência e eficiência</strong> dos serviços, atrelados à proteção da privacidade dos dados. A disseminação da informação mobiliza e acelera as organizações públicas (Kolbe, 2017).</p>
+        <div class="importante">⭐ <strong>LGPD — Lei n. 13.709, de 14 de agosto de 2018</strong><br>Estabelece a necessidade de garantir a <strong>inviolabilidade dos dados</strong> e a <strong>auditabilidade dos tratamentos</strong> aos quais os dados dos cidadãos são submetidos.</div>
+      </div></div>
+
+      <div class="secao-titulo">Tema 4 — Valor da Informação</div>
+      <div class="card"><div class="card-header">4.1 Dado × Informação × Conhecimento</div><div class="card-body">
+        <table>
+          <tr><th>Nível</th><th>Descrição</th><th>Características</th></tr>
+          <tr><td><strong>Dado</strong></td><td>Simples observação do estado do mundo</td><td>Facilmente estruturado, obtido por máquinas, quantificado e transferível</td></tr>
+          <tr><td><strong>Informação</strong></td><td>Dados tratados e selecionados estruturadamente</td><td>Requer unidade de análise, consenso e mediação humana; difícil de estruturar</td></tr>
+          <tr><td><strong>Conhecimento</strong></td><td>Reflexão inteligente sobre informações</td><td>Frequentemente tácito (não escrito); difícil de capturar em máquinas e de transferir</td></tr>
+        </table>
+        <div class="destaque"><strong>Exemplo:</strong> Coletor de temperatura sofre pane 30min. Dados brutos = válidos + inválidos (dado). Computador exclui inválidos e calcula média correta (informação). Usuário relaciona temperatura com consumo de água dos colaboradores (conhecimento).</div>
+      </div></div>
+
+      <div class="card"><div class="card-header">4.2 Classificação por Sigilo + 4.3 Hierarquia</div><div class="card-body">
+        <div class="importante">⭐ Há relação direta entre <strong>valor da informação e seu sigilo</strong>.<br>Graus: <strong>Pública → Reservada → Confidencial</strong> (valor cresce conforme o sigilo aumenta)</div>
+        <table>
+          <tr><th>Nível Hierárquico</th><th>Usuários</th><th>Tipo de informação</th></tr>
+          <tr><td><strong>Operacional</strong></td><td>Corpo técnico e administrativo</td><td>Informações detalhadas para tarefas cotidianas</td></tr>
+          <tr><td><strong>Gerencial</strong></td><td>Gestão intermediária</td><td>Informações combinadas para decisões táticas</td></tr>
+          <tr><td><strong>Estratégico</strong></td><td>Alta gerência</td><td>IA e BI para decisões complexas (ex: internacionalização)</td></tr>
+        </table>
+      </div></div>
+
+      <div class="card"><div class="card-header">4.4 Ciclo de Vida da Informação</div><div class="card-body">
+        <div class="importante">⭐ <strong>Produção → Manuseio → Armazenamento → Transporte → Descarte</strong><br>Em cada fase surgem riscos distintos que exigem procedimentos específicos de segurança.</div>
+        <table>
+          <tr><th>Fase</th><th>O que ocorre</th><th>Risco principal</th></tr>
+          <tr><td>Produção</td><td>Coleta do dado bruto</td><td>Dados inválidos na origem</td></tr>
+          <tr><td>Manuseio</td><td>Transformação em informação</td><td>Alteração indevida do conteúdo</td></tr>
+          <tr><td>Armazenamento</td><td>Guarda com classificação de sigilo</td><td>Acesso não autorizado; dados confidenciais exigem servidores robustos</td></tr>
+          <tr><td>Transporte</td><td>Transmissão pela rede</td><td>Interceptação durante a transmissão</td></tr>
+          <tr><td>Descarte</td><td>Eliminação quando inútil</td><td>Recuperação indevida de dados descartados</td></tr>
+        </table>
+      </div></div>
+
+      <div class="secao-titulo">Tema 5 — Conceitos de Segurança da Informação</div>
+      <div class="card"><div class="card-header">5.1 Segurança no Organograma</div><div class="card-body">
+        <p class="corpo">As áreas de segurança evoluíram de gerências dentro de TI para diretorias independentes, após a sedimentação de legislações internacionais sobre privacidade e o reconhecimento do valor dos dados corporativos.</p>
+        <p class="corpo">Surgiu a figura do <strong>CSO (Chief Security Officer)</strong> — alto executivo que dirige os esforços corporativos de segurança, ligado diretamente à alta administração.</p>
+      </div></div>
+
+      <div class="card"><div class="card-header">5.2 As 7 Características da Informação Segura</div><div class="card-body">
+        <div class="destaque">⭐ <strong>Conceito mais importante da aula! Memorize todas as 7.</strong></div>
+        <table>
+          <tr><th>#</th><th>Característica</th><th>O que garante</th></tr>
+          <tr style="background:#d6e8f7"><td>1</td><td>🔒 <strong>Confidencialidade</strong></td><td>Só quem é autorizado acessa — mantida por todo o ciclo de vida</td></tr>
+          <tr style="background:#d6e8f7"><td>2</td><td>✅ <strong>Integridade</strong></td><td>A informação não foi alterada indevidamente</td></tr>
+          <tr style="background:#d6e8f7"><td>3</td><td>📡 <strong>Disponibilidade</strong></td><td>Acessível sempre que necessário</td></tr>
+          <tr><td>4</td><td>🪪 Autenticidade</td><td>É genuinamente de quem diz ser</td></tr>
+          <tr><td>5</td><td>🚫 Irretratabilidade (Não repúdio)</td><td>O autor não pode negar a autoria</td></tr>
+          <tr><td>6</td><td>🛡️ Privacidade</td><td>Dados pessoais protegidos conforme LGPD e compliance</td></tr>
+          <tr><td>7</td><td>🔍 Auditabilidade</td><td>Possível verificar todas as características durante todo o ciclo de vida</td></tr>
+        </table>
+        <div class="importante">As 3 primeiras formam a <strong>Tríade CIA</strong> — as mais importantes para segurança de dispositivos. As demais foram inseridas pelos processos de compliance corporativo.</div>
+      </div></div>
+
+      <div class="card"><div class="card-header azul-m">Na Prática — Certificado Digital e Hash</div><div class="card-body">
+        <p class="corpo">Um <strong>certificado digital</strong> comprova a identidade de um internauta (ou computador/software) para operações seguras na rede. Sua autenticidade é verificável junto a uma <strong>Autoridade Certificadora (CA)</strong>, estabelecida legalmente. A CA confere uma chave ao interessado.</p>
+        <p class="corpo">Com o certificado, pode-se <strong>assinar digitalmente</strong> um documento, garantindo: <strong>autenticidade</strong> e <strong>irretratabilidade (não repúdio)</strong> — quem assinou não pode negar a autoria.</p>
+        <div class="destaque">⚠️ <strong>Problema:</strong> O texto poderia ser corrompido mantendo apenas a assinatura intacta.<br><strong>Solução — Hash:</strong> Função que gera um valor numérico único para o conteúdo. Qualquer alteração no documento geraria um hash diferente — detectando adulteração mesmo com a assinatura intacta.</div>
+        <p class="corpo">As características da informação segura orientam todas as ações sobre dados, informações, conhecimento e sistemas para mantê-los seguros.</p>
+      </div></div>`,
+    questoes: [
+      { tipo:"mc", enunciado:"Quem cunhou o termo 'sociedade da informação' e em que ano?", opcoes:["Manuel Castells, em 1999","Peter Drucker, em 1966","Alan Turing, em 1945","Kolbe, em 2017"], correta:1, explicacao:"Peter Drucker cunhou o termo em 1966, no livro The Age of Discontinuity." },
+      { tipo:"mc", enunciado:"Qual foi o objetivo da máquina criada por Alan Turing?", opcoes:["Automatizar a folha de pagamento do governo","Criar os primeiros videogames","Decodificar mensagens das tropas nazistas na Segunda Guerra Mundial","Controlar o tráfego aéreo"], correta:2, explicacao:"A máquina de Turing foi criada para decodificar mensagens das tropas nazistas (máquina Enigma)." },
+      { tipo:"mc", enunciado:"O que a LGPD (Lei n. 13.709/2018) estabelece?", opcoes:["Obrigatoriedade de datacenters nacionais","Necessidade de garantir inviolabilidade dos dados e auditabilidade dos tratamentos","Proibição de coleta de dados de menores","Regulamentação do uso de IA"], correta:1, explicacao:"A LGPD estabelece a necessidade de garantir a inviolabilidade dos dados e a auditabilidade dos tratamentos." },
+      { tipo:"mc", enunciado:"Quais são as 3 características da Tríade CIA?", opcoes:["Criptografia, Integridade e Autenticidade","Confidencialidade, Integridade e Disponibilidade","Controle, Identificação e Autenticação","Confidencialidade, Irretratabilidade e Auditabilidade"], correta:1, explicacao:"A Tríade CIA é: Confidencialidade, Integridade e Disponibilidade — as mais importantes para segurança de dispositivos." },
+      { tipo:"mc", enunciado:"Quais são as fases do ciclo de vida da informação?", opcoes:["Coleta → Análise → Publicação → Arquivamento → Exclusão","Produção → Manuseio → Armazenamento → Transporte → Descarte","Criação → Distribuição → Consumo → Backup → Destruição","Entrada → Processamento → Saída → Armazenamento → Recuperação"], correta:1, explicacao:"O ciclo de vida é: Produção → Manuseio → Armazenamento → Transporte → Descarte." },
+      { tipo:"mc", enunciado:"O que garante a irretratabilidade (não repúdio)?", opcoes:["Que a informação está sempre disponível","Que só pessoas autorizadas acessam","Que o autor não pode negar a autoria","Que a informação não foi alterada"], correta:2, explicacao:"Irretratabilidade garante que o autor não pode negar a autoria — garantida pela assinatura digital." },
+      { tipo:"mc", enunciado:"O que é o CSO (Chief Security Officer)?", opcoes:["Software de monitoramento de redes","Responsável técnico pelo servidor de e-mails","Alto executivo que dirige os esforços corporativos de segurança, ligado à alta administração","Auditor externo contratado anualmente"], correta:2, explicacao:"O CSO é um alto executivo que surgiu com a valorização da segurança da informação nas empresas." },
+      { tipo:"mc", enunciado:"Qual a relação entre valor da informação e seu sigilo?", opcoes:["Quanto mais pública, maior o valor","Não há relação entre sigilo e valor","Quanto maior o sigilo, maior o valor","Informações reservadas sempre valem mais que confidenciais"], correta:2, explicacao:"Há relação direta: Pública → Reservada → Confidencial. O valor cresce conforme o sigilo aumenta." },
+      { tipo:"dissertativa", enunciado:"Explique a diferença entre dado, informação e conhecimento usando um exemplo prático.", gabarito:"Dado é a simples observação (ex: temperatura=30°C — coletado pelo sensor). Informação é o resultado do tratamento dos dados (ex: média do dia excluindo medições inválidas da pane). Conhecimento é a reflexão sobre as informações para decisões (ex: relacionar temperatura com consumo de água para dimensionar o fornecimento)." },
+      { tipo:"dissertativa", enunciado:"Cite as 7 características da informação segura e explique cada uma brevemente.", gabarito:"1. Confidencialidade: só autorizados acessam. 2. Integridade: não foi alterada. 3. Disponibilidade: acessível quando necessário. 4. Autenticidade: é de quem diz ser. 5. Irretratabilidade: autor não nega autoria. 6. Privacidade: dados pessoais protegidos (LGPD). 7. Auditabilidade: possível verificar todas as características durante todo o ciclo de vida." },
+      { tipo:"dissertativa", enunciado:"O que é hash e por que ele é importante na assinatura digital?", gabarito:"Hash é uma função que gera um valor numérico único para o conteúdo de um documento. Na assinatura digital, é importante porque qualquer alteração no texto — mesmo mínima — geraria um hash diferente, detectando adulteração mesmo que a assinatura permaneça intacta." }
+    ]
+  },
+  2: {
+    titulo: "Aula 2 — Dados e Informação: Construção, Qualidade e Privacidade no Cenário Digital",
+    professor: "Prof. Gian Carlo Brustolin",
+    resumo: `
+      <div class="secao-titulo">Introdução</div>
+      <div class="card"><div class="card-header azul-m">Contexto da Aula</div><div class="card-body">
+        <p class="corpo">Esta aula aprofunda o conceito de dado e sua cadeia de valor — da transformação em informação até o conhecimento estratégico. Ao extrair inteligência dos dados, a organização torna-se <strong>responsável pela privacidade e segurança</strong> desses dados (obrigação tornada legal pela LGPD).</p>
+      </div></div>
+
+      <div class="secao-titulo">Tema 1 — Dados</div>
+      <div class="card"><div class="card-header">1.1 Um Dado, Várias Informações</div><div class="card-body">
+        <p class="corpo">Dados são <strong>sequências de fatos ainda não analisados</strong> ou eventos não organizados (London & London, 2014). São sinais desprovidos de interpretação — a <strong>matéria-prima da informação</strong> (Kolbe Júnior, 2017).</p>
+        <div class="importante">⭐ De uma coleção de dados é possível extrair <strong>múltiplas informações</strong> — não há relação numérica necessária entre o número de dados coletados e o número de informações extraíveis.</div>
+      </div></div>
+
+      <div class="card"><div class="card-header">1.2 Informação Quantitativa e Qualitativa</div><div class="card-body">
+        <table>
+          <tr><th>Tipo</th><th>Descrição</th><th>Exemplo</th></tr>
+          <tr><td><strong>Quantitativo</strong></td><td>Dado numérico</td><td>Número de vendas, temperatura</td></tr>
+          <tr><td><strong>Qualitativo</strong></td><td>Dado subjetivo (não numérico)</td><td>Opinião de consumidor</td></tr>
+        </table>
+        <div class="destaque"><strong>Escala de Likert:</strong> Técnica que objetiva dados qualitativos atribuindo valores numéricos (ex: 1=Discordo totalmente a 5=Concordo totalmente). Dados qualitativos → quantitativos e vice-versa. Muito usada em pesquisas de opinião.</div>
+        <p class="corpo">Exemplo: avaliação do bom/mau desempenho de um produto baseada em dados quantitativos de vendas comparados com concorrentes — transforma quantitativo em qualitativo para apoiar decisões empresariais.</p>
+      </div></div>
+
+      <div class="card"><div class="card-header">1.3 Dado Digital</div><div class="card-body">
+        <p class="corpo">Todo dado armazenado em computador precisa ser convertido em <strong>números binários (0s e 1s)</strong>. O <strong>significado de um dado</strong> é chamado de <strong>metadado</strong>. Para facilitar a visualização humana, usa-se a base <strong>hexadecimal</strong> — cada <strong>nible (4 bits)</strong> é representado por 1 algarismo hexadecimal.</p>
+        <table>
+          <tr><th>Tipo de dado</th><th>Solução de conversão</th></tr>
+          <tr><td>Texto / caracteres</td><td>Tabela <strong>ASCii</strong> — converte caracteres em números binários</td></tr>
+          <tr><td>Dados categóricos (ex: sexo)</td><td>Codificação numérica das categorias</td></tr>
+          <tr><td>Imagens</td><td>Divisão em <strong>pixels</strong> — cada pixel recebe valor numérico de cor/intensidade luminosa</td></tr>
+        </table>
+        <div class="destaque">⚠️ A alteração de apenas <strong>1 bit</strong> altera as características da informação segura. Por isso, <strong>algoritmos de garantia de integridade</strong> são necessários para conservar os dados digitais seguros durante sua existência útil.</div>
+      </div></div>
+
+      <div class="secao-titulo">Tema 2 — Qualidade da Informação</div>
+      <div class="card"><div class="card-header">4 Características de Qualidade (Kolbe Júnior, 2017)</div><div class="card-body">
+        <table>
+          <tr><th>Característica</th><th>Descrição</th></tr>
+          <tr><td><strong>Relevância</strong></td><td>Quanto maior a necessidade, maior o valor. Escala: <strong>irrelevante → potencial → mínima → crítica</strong> (crítica determina a sobrevivência da organização)</td></tr>
+          <tr><td><strong>Precisão</strong></td><td>Elimina possibilidade de erro interno na coleta. Dados imprecisos geram informações com precisão variável, impactando negativamente as decisões</td></tr>
+          <tr><td><strong>Confiabilidade</strong></td><td>Garante boa origem dos dados. Mesmo com algoritmos que corrijam erros, se os dados forem falsos na origem, a informação padece de confiança</td></tr>
+          <tr><td><strong>Temporalidade</strong></td><td>O valor da informação está ligado ao tempo — a mesma informação perde valor conforme se defasa</td></tr>
+        </table>
+        <div class="importante">⭐ <strong>Diferença crucial:</strong> Precisão evita erros na coleta. Confiabilidade garante que a origem é válida. Uma informação pode ser <strong>precisa mas não confiável</strong>.<br>Exemplo: sensor bem calibrado posicionado inadvertidamente ao lado de fonte de calor — dados precisos, mas temperatura não reflete o local real.</div>
+      </div></div>
+
+      <div class="secao-titulo">Tema 3 — Construção da Informação</div>
+      <div class="card"><div class="card-header">3.1 Operações de Conversão (Kolbe Júnior, 2017)</div><div class="card-body">
+        <table>
+          <tr><th>Operação</th><th>O que faz</th></tr>
+          <tr><td><strong>Contextualização</strong></td><td>Entende a utilização que se fará dos dados e os adapta para o público consumidor (ex: filtrar atributos relevantes de uma grande tabela)</td></tr>
+          <tr><td><strong>Categorização</strong></td><td>Classifica os dados em sequências de maior expressividade em relação a determinado atributo, facilitando o consumo</td></tr>
+          <tr><td><strong>Cálculo</strong></td><td>Soma, média ou desvios para permitir comparação rápida dos dados</td></tr>
+          <tr><td><strong>Correção</strong></td><td>Trata erros e imprecisões dos dados — ligada ao pré-tratamento</td></tr>
+          <tr><td><strong>Condensação</strong></td><td>Agrupa dados em grupos para facilitar o consumo e análise de significados</td></tr>
+        </table>
+      </div></div>
+
+      <div class="card"><div class="card-header">3.2 Pré-tratamento de Dados</div><div class="card-body">
+        <p class="corpo">Procedimentos para garantir precisão e confiabilidade antes do armazenamento. Problemas em grandes massas de dados (Bettini et al., 2009):</p>
+        <table>
+          <tr><th>Problema</th><th>Causa</th></tr>
+          <tr><td><strong>Imperfeição</strong></td><td>Falhas de hardware dos sensores ou erros de posicionamento</td></tr>
+          <tr><td><strong>Inconsistência</strong></td><td>Outliers — dados evidentemente falseados ou conflitantes entre si</td></tr>
+          <tr><td><strong>Discrepância</strong></td><td>Dois ou mais sensores coletam o mesmo fenômeno com resultados diferentes</td></tr>
+        </table>
+        <div class="destaque"><strong>Exemplo prático:</strong> Sensor de carga em elevador que normalmente mede 1-2 toneladas passa a apresentar medições de 30 toneladas — alta probabilidade de falha. Solução: afere o sensor e elimina ou substitui os outliers por <strong>valores médios</strong> (não alterarão análises futuras).<br>Um bom pré-tratamento preserva as características da informação segura.</div>
+      </div></div>
+
+      <div class="secao-titulo">Tema 4 — Conhecimento e Inteligência</div>
+      <div class="card"><div class="card-header">4.1 Pirâmide do Conhecimento</div><div class="card-body">
+        <p class="corpo">Conhecimento pode ser visto como <strong>"ferramentas conceituais capazes de colecionar, organizar e compartilhar informações"</strong> (London & London, 2014). Por operações de <strong>comparação, síntese, conversão e análise</strong>, informações são transformadas em conhecimento (Kolbe Júnior, 2017).</p>
+        <div class="importante">⭐ <strong>Pirâmide do Conhecimento (Eleutério, 2016):</strong><br><strong>Dados (base) → Informação → Conhecimento → Inteligência (topo)</strong><br>Valor e volume são <strong>inversamente proporcionais</strong>: quanto mais no topo, maior o valor e menor o volume — pois a construção envolve processos de sumarização e síntese.</div>
+        <p class="corpo">A <strong>inteligência</strong> pode ser entendida como a síntese de vários aspectos do conhecimento, permitindo sua aplicação em processos de decisão. A <strong>IA</strong> substituiu gradativamente a interferência humana nesse processo analítico.</p>
+      </div></div>
+
+      <div class="card"><div class="card-header">4.2 e 4.3 Pirâmide Computacional + Preservação</div><div class="card-body">
+        <p class="corpo">Na máquina computacional: algoritmos elementares combinam dados brutos → informações. Sistemas de mais alto nível consomem informações → conhecimento. IA conduz a linha de análise → decisões estratégicas.</p>
+        <p class="corpo">Em uma máquina computacional, dados brutos, informações e conhecimento são todos armazenados como <strong>dados digitais</strong>. Dados de maior valor demandam recursos mais resilientes de preservação — <strong>maiores cuidados = maiores investimentos</strong>.</p>
+      </div></div>
+
+      <div class="secao-titulo">Tema 5 — Garantia da Privacidade da Informação</div>
+      <div class="card"><div class="card-header">Ferramentas de Proteção</div><div class="card-body">
+        <p class="corpo">Ao capturar e tratar dados, a organização ganha a obrigação de preservá-los — obrigação tornada legal pela <strong>LGPD (2018)</strong>.</p>
+        <table>
+          <tr><th>Ferramenta</th><th>O que faz</th><th>Diferencial</th></tr>
+          <tr><td><strong>Firewall</strong></td><td>Isola redes analisando pacotes de dados. Identifica pacotes maliciosos e os <strong>descarta ou coloca em quarentena</strong> para análise posterior. Pode ser implementado em hardware, software ou ambos.</td><td>Atua entre redes (ex: rede privada ↔ internet)</td></tr>
+          <tr><td><strong>Antivírus</strong></td><td>Identifica e elimina códigos maliciosos instalados na máquina. Disponível para PCs, servidores, tablets e coletores de dados.</td><td>Protege máquinas individuais e servidores</td></tr>
+          <tr><td><strong>Antispyware</strong></td><td>Antivírus dedicado à eliminação de spywares (softwares que capturam informações da máquina infectada).</td><td>Mais rápido e menor impacto na capacidade computacional que o antivírus</td></tr>
+        </table>
+      </div></div>
+
+      <div class="card"><div class="card-header azul-m">Na Prática — IA no Combate a Fraudes (Reino Unido)</div><div class="card-body">
+        <p class="corpo">O Departamento de Trabalho e Pensões do Reino Unido usou IA para combater fraudes em benefícios. Em 2016, fraudes custaram <strong>£2,1 bilhões</strong> ao estado.</p>
+        <p class="corpo">O algoritmo rastreia padrões em declarações (mesmo número de telefone, mesmo estilo de escrita) e vasculha redes sociais em busca de inconsistências. Após sinalização pela IA, um <strong>investigador humano</strong> determina se a reclamação é fraudulenta.</p>
+        <div class="importante">⭐ Estimativa: IA acrescente <strong>£630 bilhões</strong> à economia britânica até 2035. Exemplo prático da pirâmide do conhecimento — dados brutos → inteligência decisória.</div>
+      </div></div>`,
+    questoes: [
+      { tipo:"mc", enunciado:"O que são dados, segundo London e London (2014)?", opcoes:["Informações já processadas prontas para decisão","Sequências de fatos ainda não analisados ou eventos não organizados","Resultados finais de análises estatísticas","Sinônimo de conhecimento no contexto computacional"], correta:1, explicacao:"Dados são sequências de fatos ainda não analisados ou eventos não organizados — a matéria-prima da informação." },
+      { tipo:"mc", enunciado:"O que é um metadado?", opcoes:["Um dado armazenado fora do servidor principal","O significado de um dado","Um dado corrompido que precisa ser corrigido","Um arquivo de backup automático"], correta:1, explicacao:"O significado de um dado é frequentemente chamado de metadado." },
+      { tipo:"mc", enunciado:"Como textos e caracteres são armazenados em um computador?", opcoes:["Convertidos em pixels coloridos","Armazenados diretamente como letras","Convertidos em números binários usando a tabela ASCii","Comprimidos em formato ZIP automático"], correta:2, explicacao:"A tabela ASCii converte caracteres em números binários, permitindo seu armazenamento na memória computacional." },
+      { tipo:"mc", enunciado:"Qual a diferença entre precisão e confiabilidade?", opcoes:["São sinônimos","Precisão evita erros na coleta; confiabilidade garante que a origem dos dados é válida","Precisão é qualitativa; confiabilidade é quantitativa","Precisão é sobre o futuro; confiabilidade é sobre o passado"], correta:1, explicacao:"Precisão elimina erros internos na coleta. Confiabilidade garante a boa origem. Uma informação pode ser precisa mas não confiável." },
+      { tipo:"mc", enunciado:"Quais são as 5 operações de conversão de dados em informações?", opcoes:["Coleta, análise, síntese, publicação e descarte","Contextualização, categorização, cálculo, correção e condensação","Filtragem, ordenação, agrupamento, cálculo e exportação","Captura, armazenamento, processamento, exibição e backup"], correta:1, explicacao:"As 5 operações são: Contextualização, Categorização, Cálculo, Correção e Condensação (Kolbe Júnior, 2017)." },
+      { tipo:"mc", enunciado:"Na pirâmide do conhecimento, qual é a relação entre valor e volume?", opcoes:["São diretamente proporcionais","Não há relação","São inversamente proporcionais — maior valor, menor volume","O volume aumenta junto com o valor"], correta:2, explicacao:"Valor e volume são inversamente proporcionais. Na base: dados (maior volume, menor valor). No topo: inteligência (menor volume, maior valor)." },
+      { tipo:"mc", enunciado:"Qual a principal diferença entre antivírus e antispyware?", opcoes:["Antivírus protege servidores; antispyware protege PCs","Antispyware é dedicado a eliminar spywares, com maior velocidade e menor impacto computacional","Antivírus é gratuito; antispyware é pago","Antispyware protege redes; antivírus protege máquinas"], correta:1, explicacao:"Antispyware é dedicado à eliminação de spywares, com vantagem de maior velocidade e menor impacto na capacidade computacional." },
+      { tipo:"mc", enunciado:"O que um firewall faz com pacotes maliciosos identificados?", opcoes:["Criptografa e devolve ao remetente","Alerta o usuário e aguarda decisão","Descarta ou reserva em quarentena para análise posterior","Converte em formato seguro e libera"], correta:2, explicacao:"O firewall extrai o pacote impróprio e pode descartá-lo ou reservá-lo em quarentena para análise posterior." },
+      { tipo:"dissertativa", enunciado:"Explique o que é a pirâmide do conhecimento e por que valor e volume são inversamente proporcionais.", gabarito:"A pirâmide representa a agregação de valor: Dados (base) → Informação → Conhecimento → Inteligência (topo). Valor e volume são inversamente proporcionais porque construir informação e conhecimento envolve síntese e sumarização, reduzindo o volume de elementos. Quanto mais refinado o produto, maior seu valor e menor sua quantidade." },
+      { tipo:"dissertativa", enunciado:"Cite as 4 características de qualidade da informação e explique a diferença entre precisão e confiabilidade com um exemplo.", gabarito:"As 4 características são: Relevância, Precisão, Confiabilidade e Temporalidade. Precisão elimina erros internos na coleta. Confiabilidade garante que a origem é válida. Exemplo: sensor bem calibrado posicionado próximo a fonte de calor gera dados precisos (sem erros de coleta), mas não confiáveis (origem inválida — temperatura não reflete o ambiente real)." },
+      { tipo:"dissertativa", enunciado:"O que é pré-tratamento de dados, quais seus principais problemas e como são tratados?", gabarito:"Pré-tratamento são procedimentos para garantir precisão e confiabilidade antes do armazenamento. Problemas: imperfeição (falhas de hardware/posicionamento), inconsistência (outliers — dados falseados ou conflitantes) e discrepância (sensores com resultados diferentes sobre o mesmo fenômeno). Tratamento: verificar contra histórico de coletas anteriores, eliminar outliers ou substituí-los por valores médios que não alterarão análises futuras." }
+    ]
+  }
+};
+
+let acertos = 0, totalMC = 0, respondidas = {};
+
+function selecionarAula(n) {
+  document.querySelectorAll('.btn-aula:not(.bloqueada)').forEach((b, i) => {
+    b.classList.toggle('ativo', i === n - 1);
+  });
+  renderAula(n);
+}
+
+function renderAula(n) {
+  const aula = dados[n];
+  if (!aula) return;
+  acertos = 0; totalMC = 0; respondidas = {};
+  totalMC = aula.questoes.filter(q => q.tipo === 'mc').length;
+
+  let qHTML = '';
+  aula.questoes.forEach((q, i) => {
+    if (q.tipo === 'mc') {
+      const ops = q.opcoes.map((op, j) =>
+        `<div class="opcao" id="op-${i}-${j}" onclick="selecionarOpcao(${i},${j},${q.correta})">
+          <span class="opcao-letra">${String.fromCharCode(65+j)}</span><span>${op}</span>
+        </div>`).join('');
+      qHTML += `<div class="questao"><div class="questao-header">Questão ${i+1} — Múltipla Escolha</div>
+        <div class="questao-body"><p class="questao-enunciado">${q.enunciado}</p>
+        <div id="opcoes-${i}">${ops}</div>
+        <div class="gabarito-box" id="gab-${i}">✅ <strong>Gabarito:</strong> ${q.opcoes[q.correta]}<br><em>${q.explicacao}</em></div>
+        </div></div>`;
+    } else {
+      qHTML += `<div class="questao"><div class="questao-header">Questão ${i+1} — Dissertativa</div>
+        <div class="questao-body"><p class="questao-enunciado">${q.enunciado}</p>
+        <textarea class="campo-dissertativa" placeholder="Escreva sua resposta aqui..."></textarea><br>
+        <button class="btn btn-gabarito" onclick="verGabarito(${i})">Ver gabarito</button>
+        <div class="gabarito-box" id="gab-${i}">📝 <strong>Gabarito:</strong> ${q.gabarito}</div>
+        </div></div>`;
+    }
+  });
+
+  document.getElementById('conteudo').innerHTML = `
+    <div class="tabs">
+      <button class="tab ativo" onclick="trocarTab('resumo',this)">📖 Resumo</button>
+      <button class="tab" onclick="trocarTab('questoes',this)">✏️ Questões (${aula.questoes.length})</button>
+    </div>
+    <div class="painel ativo" id="painel-resumo">
+      <div class="card"><div class="card-header">${aula.titulo}</div>
+      <div class="card-body"><p class="corpo" style="color:#6c757d">${aula.professor}</p></div></div>
+      ${aula.resumo}
+    </div>
+    <div class="painel" id="painel-questoes">
+      <div class="card"><div class="card-header verde">Questões — ${aula.titulo.split('—')[0].trim()}</div>
+      <div class="card-body">
+        <p class="progresso-texto">Progresso: <span id="prog-texto">0/${totalMC} múltipla escolha respondidas</span></p>
+        <div class="progresso-bar"><div class="progresso-fill" id="prog-fill" style="width:0%"></div></div>
+      </div></div>
+      ${qHTML}
+      <div id="resultado-final"></div>
+    </div>`;
+}
+
+function trocarTab(tab, el) {
+  document.querySelectorAll('.tab').forEach(t => t.classList.remove('ativo'));
+  document.querySelectorAll('.painel').forEach(p => p.classList.remove('ativo'));
+  el.classList.add('ativo');
+  document.getElementById('painel-' + tab).classList.add('ativo');
+}
+
+function selecionarOpcao(qi, ji, correta) {
+  if (respondidas[qi] !== undefined) return;
+  respondidas[qi] = ji;
+  document.querySelectorAll(`#opcoes-${qi} .opcao`).forEach((op, idx) => {
+    if (idx === correta) op.classList.add('correta');
+    else if (idx === ji && ji !== correta) op.classList.add('errada');
+    op.style.cursor = 'default';
+  });
+  document.getElementById(`gab-${qi}`).classList.add('visivel');
+  if (ji === correta) acertos++;
+  atualizarProgresso();
+}
+
+function verGabarito(qi) {
+  document.getElementById(`gab-${qi}`).classList.toggle('visivel');
+}
+
+function atualizarProgresso() {
+  const resps = Object.keys(respondidas).length;
+  const pct = totalMC > 0 ? Math.round((resps/totalMC)*100) : 0;
+  document.getElementById('prog-fill').style.width = pct + '%';
+  document.getElementById('prog-texto').textContent = `${resps}/${totalMC} múltipla escolha respondidas`;
+  if (resps === totalMC && totalMC > 0) {
+    const nota = Math.round((acertos/totalMC)*100);
+    const cls = nota >= 80 ? 'otimo' : nota >= 60 ? 'bom' : 'estudar';
+    const msg = nota >= 80 ? '🎉 Ótimo desempenho!' : nota >= 60 ? '👍 Bom, mas revise os erros.' : '📖 Revise o resumo antes de continuar.';
+    document.getElementById('resultado-final').innerHTML = `
+      <div class="resultado-final ${cls}">
+        <div class="nota">${nota}%</div>
+        <div>${acertos}/${totalMC} questões corretas</div>
+        <div style="font-size:0.85rem;margin-top:6px">${msg}</div>
+      </div>`;
+  }
+}
+
+renderAula(1);
+</script>
+</body>
+</html>
