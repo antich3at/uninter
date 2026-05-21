@@ -87,7 +87,7 @@
   <div class="aulas-nav">
     <button class="btn-aula ativo" onclick="selecionarAula(1)">Aula 1</button>
     <button class="btn-aula" onclick="selecionarAula(2)">Aula 2</button>
-    <button class="btn-aula bloqueada">Aula 3</button>
+    <button class="btn-aula" onclick="selecionarAula(3)">Aula 3</button>
     <button class="btn-aula bloqueada">Aula 4</button>
     <button class="btn-aula bloqueada">Aula 5</button>
     <button class="btn-aula bloqueada">Aula 6</button>
@@ -340,7 +340,123 @@ const dados = {
       { tipo:"dissertativa", enunciado:"Cite as 4 características de qualidade da informação e explique a diferença entre precisão e confiabilidade com um exemplo.", gabarito:"As 4 características são: Relevância, Precisão, Confiabilidade e Temporalidade. Precisão elimina erros internos na coleta. Confiabilidade garante que a origem é válida. Exemplo: sensor bem calibrado posicionado próximo a fonte de calor gera dados precisos (sem erros de coleta), mas não confiáveis (origem inválida — temperatura não reflete o ambiente real)." },
       { tipo:"dissertativa", enunciado:"O que é pré-tratamento de dados, quais seus principais problemas e como são tratados?", gabarito:"Pré-tratamento são procedimentos para garantir precisão e confiabilidade antes do armazenamento. Problemas: imperfeição (falhas de hardware/posicionamento), inconsistência (outliers — dados falseados ou conflitantes) e discrepância (sensores com resultados diferentes sobre o mesmo fenômeno). Tratamento: verificar contra histórico de coletas anteriores, eliminar outliers ou substituí-los por valores médios que não alterarão análises futuras." }
     ]
+  },
+
+  3: {
+    titulo: "Aula 3 — Banco de Dados: Manipulação de BDs, Funções dos SGBDs e Outras Arquiteturas de Recipientes de Dados",
+    professor: "Prof. Gian Carlo Brustolin",
+    resumo: `
+    <div class="secao-titulo">Introdução</div>
+    <div class="card"><div class="card-header azul-m">Contexto da Aula</div><div class="card-body">
+      <p class="corpo">Esta aula apresenta como os dados digitais são armazenados em bancos de dados, as funções do sistema de gerenciamento (SGBD) e os procedimentos de segurança que esse sistema deve prover.</p>
+    </div></div>
+
+    <div class="secao-titulo">Tema 1 — Banco de Dados</div>
+    <div class="card"><div class="card-header">1.1 Histórico</div><div class="card-body">
+      <p class="corpo"><strong>Banco de dados (BD)</strong> = armazenagem organizada de dados e arquivos, conservando o relacionamento mútuo que possibilite consulta e manipulação (Turbanet et al., 2005).</p>
+      <p class="corpo">Os primeiros BDs eram não computacionais (cadernetas de venda a prazo, listas telefônicas). Com a tecnologia, evoluíram: <strong>fitas de papel perfurado → cartões perfurados → fitas magnéticas → mídias magnéticas, ópticas e eletrônicas</strong>.</p>
+      <div class="destaque"><strong>Herman Hollerith</strong> foi responsável pela primeira aplicação de larga escala de BDs computacionais rudimentares. Com o sucesso, sua empresa tornou-se em 1924 a <strong>IBM (International Business Machines)</strong>.</div>
+      <p class="corpo">Os primeiros BDs eram <strong>sequenciais</strong> — não permitiam mais de um processo de acesso ao mesmo arquivo por vez. Cada SI gerenciava seu próprio BD exclusivo.</p>
+      <p class="corpo">A evolução permitiu acessos mais flexíveis e a unificação dos BDs, mas criou problemas de <strong>inconsistência e segurança</strong>. A solução foi o <strong>SGBD (Sistema Gerenciador de Banco de Dados)</strong> — ferramenta criada para centralizar o gerenciamento das transações entre os aplicativos e o BD.</p>
+      <div class="importante">⭐ Com o SGBD, os SIs clientes se abstraem do processo de gravação — basta requisitar ao SGBD que armazene ou recupere os registros desejados.</div>
+    </div></div>
+
+    <div class="card"><div class="card-header">1.2 Classificação dos BDs</div><div class="card-body">
+      <table>
+        <tr><th>Modelo</th><th>Como organiza os dados</th></tr>
+        <tr><td><strong>Hierárquico</strong></td><td>Estrutura de árvore — acesso parte obrigatoriamente do nó raiz; não permite acessos aleatórios</td></tr>
+        <tr><td><strong>Relacional</strong></td><td>Registros em tabelas com linhas e colunas, com associações entre registros e entre tabelas. Ainda o mais popular atualmente.</td></tr>
+        <tr><td><strong>Orientado a objetos</strong></td><td>Surgiu na década de 1980, como resposta ao aparecimento da programação orientada a objetos</td></tr>
+        <tr><td><strong>Rede</strong></td><td>Relaciona registros por ponteiros — um registro proprietário aponta para registros membros, que podem apontar para outros relacionados ao mesmo proprietário</td></tr>
+      </table>
+    </div></div>
+
+    <div class="secao-titulo">Tema 2 — Manipulação de BDs</div>
+    <div class="card"><div class="card-header">2.1 DBA e DBP</div><div class="card-body">
+      <table>
+        <tr><th>Profissional</th><th>Sigla</th><th>Responsabilidades</th></tr>
+        <tr><td><strong>Database Administrator</strong></td><td>DBA</td><td>Libera direitos de acesso, monitora uso, latência e segurança, administra recursos, define pontos de ampliação de HW e SW (Elmasri e Navathe, 2018)</td></tr>
+        <tr><td><strong>Database Project (Projetista)</strong></td><td>DBP</td><td>Projeta estrutura do BD para novas aplicações. Estuda todos os usuários e aplicações clientes. Projeta BD elástico e resiliente a futuras ampliações.</td></tr>
+      </table>
+      <div class="importante">⭐ Um bom projeto do DBP facilita o trabalho posterior do DBA, principalmente na manutenção e segurança dos registros.</div>
+    </div></div>
+
+    <div class="card"><div class="card-header">2.2 Registros em um BD</div><div class="card-body">
+      <p class="corpo">Todo dado em um BD é armazenado como <strong>números binários</strong>. Para dar significado a esses números, o SGBD cria um <strong>"dicionário" de metadados</strong> durante a criação do BD — contendo informações descritivas dos dados (tipos, estruturas e restrições).</p>
+      <p class="corpo">Um <strong>registro</strong> é um ou mais dados digitais indexáveis em um BD. Não há tamanho fixo. Exemplo: o nome "Marcelo" é armazenado como a sequência hexadecimal equivalente de cada letra (ASCii). Além do dado, há <strong>marcadores de início e fim de registro</strong>, também gerenciados pelo SGBD.</p>
+    </div></div>
+
+    <div class="card"><div class="card-header">2.3 Acesso a um Registro (Query)</div><div class="card-body">
+      <p class="corpo">Para acessar registros, o usuário (humano ou computacional) envia uma <strong>query</strong> (busca) padronizada ao SGBD. Cada SGBD tem seus comandos, mas há padrões conhecidos.</p>
+      <div class="destaque"><strong>Exemplo SQL:</strong> <code>SELECT * FROM PRODUTOS</code> → retorna todos os registros da tabela Produtos (código, nome, estoque, custo).<br><strong>Comando JOIN:</strong> busca registros em mais de uma tabela simultaneamente ou combina tabelas matematicamente, criando uma nova tabela resultante.</div>
+    </div></div>
+
+    <div class="secao-titulo">Tema 3 — Funções do SGBD e Segurança</div>
+    <div class="card"><div class="card-header">3.1 Operações e Segurança</div><div class="card-body">
+      <p class="corpo">Não existem fronteiras de rede obrigatórias entre SI e SGBD — o BD pode residir centralizado em outra sede da corporação. SIs enviam requisições remotamente. Sistemas web permitem acesso por dispositivos remotos, independente de rede privada.</p>
+      <div class="destaque">⚠️ O transporte de requisições e dados pela rede ou internet insere <strong>latência</strong> e <strong>vulnerabilidades</strong> que ameaçam a segurança. O SGBD pode ter grande parte de seu trabalho dedicado à segurança das transações.</div>
+    </div></div>
+
+    <div class="card"><div class="card-header">3.2 Preservação de Dados e Latência</div><div class="card-body">
+      <p class="corpo">Um BD tende a existir por muitos anos. O SGBD deve implementar estratégias de preservação da <strong>integridade</strong>. Exemplo de risco: falha no cabeçote de gravação ou pico de energia durante gravação em SSD — o dado não será íntegro (ex: salário corrompido gera erro na folha de pagamento).</p>
+      <p class="corpo">O SGBD aplica <strong>operações matemáticas</strong> (códigos de redundância) para detectar e eventualmente corrigir erros:</p>
+      <div class="destaque">
+        Dado: <strong>1234</strong> → soma dos dígitos: 1+2+3+4 = <strong>10</strong> → gravado como <strong>1234 10</strong><br>
+        Na leitura: dado = <strong>1237</strong> → soma: 1+2+3+7 = <strong>12 ≠ 10</strong> → dado <strong>não é íntegro</strong> (detectado!)<br>
+        Para <em>corrigir</em> (além de detectar), seria necessária uma segunda soma parcial. Aprofundamento: pesquisar <strong>CRC (Cyclic Redundancy Check)</strong>.
+      </div>
+      <p class="corpo"><strong>Latência</strong> = tempo total entre a saída de uma requisição e o retorno do resultado. Maior fator: trânsito de pacotes na rede. O SGBD administra requisições simultâneas com <strong>estratégias de fila e priorização</strong> para minimizar a latência e garantir a <strong>disponibilidade</strong>.</p>
+    </div></div>
+
+    <div class="secao-titulo">Tema 4 — Outras Arquiteturas de Recipientes de Dados</div>
+    <div class="card"><div class="card-header">Visão Geral + 4.1 Exportação de Dados</div><div class="card-body">
+      <p class="corpo">Nem sempre todos os SIs corporativos são compatíveis com o mesmo BD/SGBD — por questões técnicas ou legais. Isso gera problemas de integração.</p>
+      <p class="corpo"><strong>Exportação de dados</strong> é solução simples, mas pode <strong>romper a consistência temporal</strong> dos dados (Kolbe Júnior, 2017).</p>
+      <div class="destaque"><strong>Exemplo:</strong> SI de faturamento consulta custos do SI de estoque. Se a consulta ocorre no momento errado (entre atualizações de custo), o preço calculado será baseado em dado desatualizado — a loja pode operar em prejuízo até nova query.</div>
+    </div></div>
+
+    <div class="card"><div class="card-header">4.2 Data Warehouse (DW) / 4.3 Data Mart (DM) / 4.4 Data Lake (DL)</div><div class="card-body">
+      <table>
+        <tr><th>Arquitetura</th><th>O que armazena</th><th>Para que serve</th></tr>
+        <tr><td><strong>Data Warehouse (DW)</strong></td><td>Dados <strong>estruturados</strong> (já processados por SIs)</td><td>Compartilhamento consistente entre SIs incompatíveis; histórico gerencial. Suporta: OLAP, mineração de dados, big data.</td></tr>
+        <tr><td><strong>Data Mart (DM)</strong></td><td>Cópia <strong>parcial</strong> do DW</td><td>Quando um SI específico (ex: CRM) precisa de parte do DW com uso muito intenso — evita sobrecarga no DW principal.</td></tr>
+        <tr><td><strong>Data Lake (DL)</strong></td><td>Dados <strong>brutos e estruturados</strong> indiferentemente</td><td>Análises de ciência de dados: deep learning, machine learning, extração de significado.</td></tr>
+      </table>
+    </div></div>
+
+    <div class="secao-titulo">Tema 5 — Segurança em BDs</div>
+    <div class="card"><div class="card-header">5.1 Ameaças + 5.2 As 4 Medidas de Controle do SGBD</div><div class="card-body">
+      <p class="corpo">Ameaças aos BDs envolvem: perda de <strong>integridade, disponibilidade e confidencialidade</strong> (Tríade CIA). O SGBD não age sozinho: <strong>firewalls, antivírus, segurança de rede e monitoração</strong> precisam agir colaborativamente.</p>
+      <div class="importante">⭐ Segurança de BD envolve ações <strong>técnicas E administrativas</strong>. O <strong>treinamento e conscientização das equipes</strong> pode ser fator de importância maior que as ferramentas computacionais.</div>
+      <div class="destaque">⭐ <strong>Memorize as 4 medidas de controle do SGBD!</strong></div>
+      <table>
+        <tr><th>Medida</th><th>O que faz</th></tr>
+        <tr><td><strong>Controle de acesso</strong></td><td>Determina quais usuários acessam quais dados — liberação direcionada, não genérica. <strong>Dupla verificação de identidade</strong> aumenta substancialmente a segurança da identificação.</td></tr>
+        <tr><td><strong>Controle de inferência</strong></td><td>Limita acesso a registros ou dados sensíveis. Importante em BDs públicos que possam ferir a privacidade de indivíduos ou empresas.</td></tr>
+        <tr><td><strong>Controle de fluxo</strong></td><td>Impede <strong>vazamento secundário</strong> — mesmo que o usuário tenha acesso a dados confidenciais, garante que não os compartilhe com terceiros não autorizados.</td></tr>
+        <tr><td><strong>Criptografia</strong></td><td>Impede que dados obtidos irregularmente sejam interpretados. Dados armazenados após processo criptográfico — retorno à condição original depende da <strong>chave criptográfica</strong> e do <strong>algoritmo</strong>.</td></tr>
+      </table>
+    </div></div>
+
+    <div class="card"><div class="card-header azul-m">Na Prática — DBA e Acesso Corporativo</div><div class="card-body">
+      <p class="corpo">Quando você é contratado em uma empresa, o <strong>DBA</strong> configura no BD de cada sistema que você precisará acessar: sua conta (usuário e senha) e seus <strong>privilégios</strong> — determinando quais registros do BD estarão visíveis para você, conforme as atribuições do seu cargo.</p>
+    </div></div>`,
+    questoes: [
+      { tipo:"mc", enunciado:"Quem foi Herman Hollerith e qual sua contribuição para a computação?", opcoes:["Criou o primeiro SGBD relacional nos anos 1970","Foi responsável pela primeira aplicação de larga escala de BDs computacionais; sua empresa tornou-se a IBM em 1924","Inventou a linguagem SQL para consulta em BDs","Criou os primeiros BDs orientados a objetos na década de 1980"], correta:1, explicacao:"Herman Hollerith foi responsável pela primeira aplicação de larga escala de BDs computacionais rudimentares. Com o sucesso, sua empresa transformou-se em 1924 na IBM." },
+      { tipo:"mc", enunciado:"Por que a evolução dos BDs sequenciais criou problemas?", opcoes:["Porque os computadores da época eram lentos demais","Porque criou problemas de inconsistência e segurança nos dados — a solução foi o SGBD","Porque cada empresa precisava comprar um novo servidor","Porque os dados passaram a ser armazenados em texto puro"], correta:1, explicacao:"A flexibilidade dos novos BDs criou problemas de inconsistência e segurança. A solução foi o SGBD, que centraliza o gerenciamento das transações." },
+      { tipo:"mc", enunciado:"Qual a diferença entre DBA e DBP?", opcoes:["DBA projeta novos BDs; DBP administra BDs existentes","DBA administra o BD e SGBD existentes; DBP projeta a estrutura de novos BDs","DBA cuida da segurança; DBP cuida do desempenho","São sinônimos"], correta:1, explicacao:"DBA (Database Administrator) administra o BD e SGBD existentes. DBP (Database Project) projeta a estrutura de novos BDs para novas aplicações." },
+      { tipo:"mc", enunciado:"O que é latência em um BD?", opcoes:["A capacidade máxima de armazenamento","O tempo total entre a saída de uma requisição do SI e o retorno do resultado pelo BD","O número máximo de usuários simultâneos","A velocidade de criptografia dos dados"], correta:1, explicacao:"Latência é o tempo total entre a saída de uma requisição e o retorno do resultado. O maior fator de impacto é o trânsito de pacotes na rede." },
+      { tipo:"mc", enunciado:"Qual a diferença entre Data Warehouse (DW) e Data Lake (DL)?", opcoes:["DW armazena dados em nuvem; DL armazena localmente","DW armazena apenas dados estruturados (já processados); DL reúne dados brutos e estruturados indiferentemente","DW é para pequenas empresas; DL é para grandes corporações","DW usa SQL; DL usa linguagem própria"], correta:1, explicacao:"DW armazena dados estruturados (já processados). Data Lake reúne dados brutos e estruturados, permitindo análises de ciência de dados como machine learning." },
+      { tipo:"mc", enunciado:"O que é um Data Mart (DM)?", opcoes:["Um BD sequencial usado em sistemas legados","Uma cópia parcial do DW, de proporções reduzidas, com consistência controlada pelo DW principal","Um sistema de backup automático do DW","Um BD dedicado exclusivamente à segurança"], correta:1, explicacao:"Data Mart é um DW de proporções reduzidas — uma cópia de parte do DW, usado quando um SI específico precisa de determinados segmentos com uso muito intenso." },
+      { tipo:"mc", enunciado:"Qual medida de controle do SGBD impede que dados obtidos irregularmente sejam interpretados?", opcoes:["Controle de acesso","Controle de inferência","Controle de fluxo","Criptografia"], correta:3, explicacao:"A criptografia impede que dados obtidos irregularmente possam ser interpretados. O retorno à condição original depende da chave criptográfica e do algoritmo utilizado." },
+      { tipo:"mc", enunciado:"O que é controle de fluxo em um SGBD?", opcoes:["Controla a velocidade de transferência na rede","Limita o vazamento secundário — garante que usuário autorizado não compartilhe dados confidenciais com terceiros não autorizados","Determina quais usuários podem acessar quais dados","Monitora o desempenho das queries"], correta:1, explicacao:"Controle de fluxo limita o vazamento secundário de informações — mesmo que o usuário tenha acesso, garante que não compartilhe com terceiros não autorizados." },
+      { tipo:"mc", enunciado:"Por que a exportação de dados entre BDs pode ser problemática?", opcoes:["Porque é um processo muito lento e caro","Porque pode romper a consistência temporal dos dados","Porque só funciona entre BDs do mesmo fabricante","Porque apaga os dados do BD de origem"], correta:1, explicacao:"A exportação pode romper a consistência temporal — dependendo do momento da query, o dado pode estar desatualizado, gerando inconsistências nos sistemas que o consomem." },
+      { tipo:"dissertativa", enunciado:"Explique o que é um SGBD e por que ele foi necessário com a evolução dos bancos de dados.", gabarito:"O SGBD (Sistema Gerenciador de Banco de Dados) é uma ferramenta que centraliza o gerenciamento das transações entre os aplicativos e o BD. Foi necessário porque a evolução dos BDs sequenciais para BDs com acessos flexíveis e unificados criou problemas de inconsistência e segurança. Com o SGBD, os SIs clientes se abstraem do processo de gravação — basta requisitar ao SGBD que armazene ou recupere os registros desejados." },
+      { tipo:"dissertativa", enunciado:"Cite e explique as 4 medidas de controle implementadas por um SGBD.", gabarito:"1. Controle de acesso: determina quais usuários acessam quais dados — liberação direcionada, não genérica. Dupla verificação de identidade aumenta a segurança. 2. Controle de inferência: limita acesso a dados sensíveis, protegendo privacidade em BDs públicos. 3. Controle de fluxo: impede vazamento secundário — garante que usuário autorizado não compartilhe dados com terceiros não autorizados. 4. Criptografia: impede que dados obtidos irregularmente sejam interpretados — depende de chave criptográfica e algoritmo para retornar à condição original." },
+      { tipo:"dissertativa", enunciado:"Qual a diferença entre Data Warehouse, Data Mart e Data Lake? Quando cada um é usado?", gabarito:"Data Warehouse (DW): compartilha dados estruturados (já processados) com consistência temporal garantida. Usado quando múltiplos SIs incompatíveis precisam de dados consistentes ou para histórico gerencial. Suporta OLAP, mineração de dados e big data. Data Mart (DM): cópia reduzida de parte do DW, com consistência controlada pelo DW. Usado quando um SI específico precisa de determinados segmentos com uso muito intenso. Data Lake (DL): reúne dados brutos e estruturados indiferentemente, disponíveis indefinidamente. Usado para análises de ciência de dados (machine learning, deep learning)." }
+    ]
   }
+
 };
 
 let acertos = 0, totalMC = 0, respondidas = {};
