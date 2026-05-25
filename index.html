@@ -88,7 +88,7 @@
     <button class="btn-aula ativo" onclick="selecionarAula(1)">Aula 1</button>
     <button class="btn-aula" onclick="selecionarAula(2)">Aula 2</button>
     <button class="btn-aula" onclick="selecionarAula(3)">Aula 3</button>
-    <button class="btn-aula bloqueada">Aula 4</button>
+    <button class="btn-aula" onclick="selecionarAula(4)">Aula 4</button>
     <button class="btn-aula bloqueada">Aula 5</button>
     <button class="btn-aula bloqueada">Aula 6</button>
   </div>
@@ -454,6 +454,160 @@ const dados = {
       { tipo:"dissertativa", enunciado:"Explique o que é um SGBD e por que ele foi necessário com a evolução dos bancos de dados.", gabarito:"O SGBD (Sistema Gerenciador de Banco de Dados) é uma ferramenta que centraliza o gerenciamento das transações entre os aplicativos e o BD. Foi necessário porque a evolução dos BDs sequenciais para BDs com acessos flexíveis e unificados criou problemas de inconsistência e segurança. Com o SGBD, os SIs clientes se abstraem do processo de gravação — basta requisitar ao SGBD que armazene ou recupere os registros desejados." },
       { tipo:"dissertativa", enunciado:"Cite e explique as 4 medidas de controle implementadas por um SGBD.", gabarito:"1. Controle de acesso: determina quais usuários acessam quais dados — liberação direcionada, não genérica. Dupla verificação de identidade aumenta a segurança. 2. Controle de inferência: limita acesso a dados sensíveis, protegendo privacidade em BDs públicos. 3. Controle de fluxo: impede vazamento secundário — garante que usuário autorizado não compartilhe dados com terceiros não autorizados. 4. Criptografia: impede que dados obtidos irregularmente sejam interpretados — depende de chave criptográfica e algoritmo para retornar à condição original." },
       { tipo:"dissertativa", enunciado:"Qual a diferença entre Data Warehouse, Data Mart e Data Lake? Quando cada um é usado?", gabarito:"Data Warehouse (DW): compartilha dados estruturados (já processados) com consistência temporal garantida. Usado quando múltiplos SIs incompatíveis precisam de dados consistentes ou para histórico gerencial. Suporta OLAP, mineração de dados e big data. Data Mart (DM): cópia reduzida de parte do DW, com consistência controlada pelo DW. Usado quando um SI específico precisa de determinados segmentos com uso muito intenso. Data Lake (DL): reúne dados brutos e estruturados indiferentemente, disponíveis indefinidamente. Usado para análises de ciência de dados (machine learning, deep learning)." }
+    ]
+  }
+,
+
+  4: {
+    titulo: "Aula 4 — Fundamentos e Estratégias da Segurança da Informação no Contexto Organizacional",
+    professor: "Prof. Gian Carlo Brustolin",
+    resumo: `
+    <div class="secao-titulo">Introdução</div>
+    <div class="card"><div class="card-header azul-m">Contexto da Aula</div><div class="card-body">
+      <p class="corpo">Esta aula aborda as questões estruturais das corporações e seu envolvimento na segurança de dados. Mesmo com altos investimentos em tecnologia, a eficiência da segurança depende fortemente das <strong>pessoas, sua organização e conscientização</strong>. Soluções procedimentais, não apenas tecnológicas, são essenciais.</p>
+    </div></div>
+
+    <div class="secao-titulo">Tema 1 — Segurança da Informação</div>
+    <div class="card"><div class="card-header">1.1 Vulnerabilidade e Ameaças</div><div class="card-body">
+      <p class="corpo"><strong>Vulnerabilidades</strong> são fraquezas no processo de preservação das características seguras da informação, capazes de gerar incidentes de comprometimento. O levantamento de vulnerabilidades exige experiência no negócio e boa capacitação técnica.</p>
+      <p class="corpo"><strong>Ameaça</strong> = a possibilidade real de exploração de uma vulnerabilidade por um agente capaz de explorá-la.</p>
+      <table>
+        <tr><th>Tipo de Ameaça</th><th>Descrição</th><th>Exemplo</th></tr>
+        <tr><td><strong>Voluntária</strong></td><td>Ação humana com intenção maliciosa (dolo)</td><td>Hacker invadindo o sistema</td></tr>
+        <tr><td><strong>Involuntária</strong></td><td>Ação humana sem dolo — frequentemente por ignorância do agente</td><td>Colaborador abrindo e-mail de phishing</td></tr>
+        <tr><td><strong>Natural</strong></td><td>Sem ação humana — surge do meio ambiente</td><td>Sala de servidor invadida por água em tempestade</td></tr>
+      </table>
+    </div></div>
+
+    <div class="card"><div class="card-header">1.2 Risco e Impacto</div><div class="card-body">
+      <p class="corpo"><strong>Risco</strong> = medida estatística (variável quantitativa) que avalia a probabilidade matemática de que uma ameaça obtenha sucesso, mudando as características da informação (Branquinho e Branquinho, 2021).</p>
+      <p class="corpo"><strong>Impacto</strong> = grau de dano à segurança da informação caso a ameaça se concretize. Também é uma variável quantitativa.</p>
+      <div class="importante">⭐ <strong>Vulnerabilidade e ameaça</strong> são variáveis <strong>categóricas</strong> (não numéricas). <strong>Risco e impacto</strong> são variáveis <strong>quantitativas</strong> (numéricas).</div>
+      <div class="destaque"><strong>Matriz de Gestão de Risco:</strong> Risco (1-5) × Impacto (1-5) = resultado entre 1 e 25.<br>Exemplo: risco alto (4) × impacto médio (3) = 12 → impacto médio na escala.<br>A <strong>gestão de risco</strong> é o processo de associar estatísticas de risco e grau de impacto, considerando vulnerabilidade e ameaça (Galvão, 2015).</div>
+      <p class="corpo">Exemplo prático: dois BDs com 50% de risco de invasão. BD1 = compras de supermercado de funcionários. BD2 = faturamento por produto da empresa. Qual proteger? Depende do <strong>impacto</strong> — o dado de faturamento tem maior impacto para o negócio.</p>
+    </div></div>
+
+    <div class="card"><div class="card-header">1.3 Ataques</div><div class="card-body">
+      <table>
+        <tr><th>Tipo</th><th>Objetivo</th></tr>
+        <tr><td><strong>Ataque ativo</strong></td><td>Alterar as características dos dados — por subtração ou modificação</td></tr>
+        <tr><td><strong>Ataque passivo</strong></td><td>Apenas ter acesso indevido aos dados, coletando informações reservadas (sem alterar)</td></tr>
+      </table>
+    </div></div>
+
+    <div class="card"><div class="card-header">1.4 Contramedidas</div><div class="card-body">
+      <p class="corpo">Após identificar vulnerabilidades, riscos e impactos, definem-se estratégias para evitar que as principais vulnerabilidades sejam exploradas (escolhidas pela gestão de risco).</p>
+      <p class="corpo">Mesmo com procedimentos técnicos, o risco <strong>nunca será zerado</strong> — é uma avaliação estatística. Por isso, existem estratégias complementares de mitigação dos impactos chamadas de <strong>contramedidas</strong> (Baars; Hintzbergen; Hintzbergen, 2018).</p>
+    </div></div>
+
+    <div class="card"><div class="card-header">1.5 Estratégias de Segurança da Informação (Galvão, 2015)</div><div class="card-body">
+      <div class="destaque">⭐ <strong>Memorize os 6 princípios!</strong></div>
+      <table>
+        <tr><th>Princípio</th><th>O que preconiza</th></tr>
+        <tr><td><strong>Menor privilégio</strong></td><td>Ceder a cada sistema ou colaborador os menores direitos de acesso possíveis. Revisar sempre para baixo quando a redução não impacta a operação.</td></tr>
+        <tr><td><strong>Defesa em profundidade</strong></td><td>Justapor diferentes mecanismos e ações distintas em sequência ou níveis quando um ataque for percebido.</td></tr>
+        <tr><td><strong>Identificação do elo mais fraco</strong></td><td>Conhecer vulnerabilidades ignoradas pelo baixo impacto — podem ser usadas como portas de entrada para ataques maiores.</td></tr>
+        <tr><td><strong>Participação universal</strong></td><td>Atendimento da política de segurança por todo o corpo funcional, nos três níveis: estratégico, tático e operacional.</td></tr>
+        <tr><td><strong>Simplicidade</strong></td><td>Procedimentos de segurança devem ser simples o suficiente para serem seguidos pelo corpo funcional.</td></tr>
+        <tr><td><strong>Diversidade de defesa</strong></td><td>Usar mais de uma estratégia de prevenção para a mesma ameaça, contemplando aspectos distintos de perfis maliciosos.</td></tr>
+      </table>
+    </div></div>
+
+    <div class="secao-titulo">Tema 2 — Estrutura Organizacional e Segurança</div>
+    <div class="card"><div class="card-header">2.1 Security Office + 2.2 CSO</div><div class="card-body">
+      <p class="corpo">A área de TI ganhou autonomia ao ser demandada simultaneamente por vários setores (comercial, marketing etc.), sendo ligada à alta administração. Dessa mudança surgiu o <strong>CIO (Chief Information Officer)</strong> — executivo responsável pelo controle da informação digital e tecnologias associadas.</p>
+      <p class="corpo">Dentro de TI, a área de segurança ganhou maior relevância com o reconhecimento dos dados como ativos e as mudanças legais (LGPD). Ao ser retirada do guarda-chuva de TI, forma o <strong>Security Office</strong> — com objetivo de estabelecer mecanismos de segurança alinhados com as fronteiras de autoridade, orçamento e cultura da empresa (Kolbe, 2017).</p>
+      <div class="importante">⭐ <strong>CSO (Chief Security Officer)</strong> — responsável pelo Security Office. Deve:<br>
+        • Compreender as implicações das escolhas de tecnologia na segurança<br>
+        • Mapear vulnerabilidades ligadas à ação humana<br>
+        • Envolver-se com processos de RH para englobar todos na filosofia de segurança<br>
+        • Observar questões externas como <strong>espionagem comercial</strong><br>
+        • Gerir documentos imprescindíveis: <strong>PSI, Plano Diretor de Segurança e DRP (Plano de Recuperação de Desastres)</strong>
+      </div>
+      <p class="corpo">O CSO conta com <strong>frameworks orientativos</strong> como <strong>COBIT</strong> e <strong>ITIL</strong> para a concepção dos documentos de segurança.</p>
+    </div></div>
+
+    <div class="secao-titulo">Tema 3 — Ação Humana e Segurança</div>
+    <div class="card"><div class="card-header">3.1 Ameaças Humanas + 3.2 Mitigação</div><div class="card-body">
+      <p class="corpo">Hackers externos existem, mas têm foco predominantemente financeiro. A mera divulgação ou destruição de dados não é motivação suficiente — há exceções por motivações políticas/ideológicas.</p>
+      <div class="destaque">⚠️ A ameaça mais importante: o <strong>colaborador interno</strong>. Em todo o ciclo de vida da informação, sua ação está presente — na configuração de equipamentos, softwares e nos cuidados de confidencialidade. Ocorre de forma <strong>contínua e diária</strong>. "A ameaça se encontra a poucos metros, ou a um click de distância." (Galvão, 2015)</div>
+      <p class="corpo">A mitigação exige permeabilidade nos três níveis da organização: <strong>estratégico, tático e operacional</strong>. A eficiência da proteção está diretamente relacionada com o comprometimento de toda a organização.</p>
+      <div class="importante">⭐ <strong>SGSI (Sistema de Gestão de Segurança da Informação)</strong> = compêndio de procedimentos e normas (técnicas e funcionais) conhecido por toda a organização, considerando softwares, equipamentos e o corpo funcional. É o meio mais eficiente de disseminar e preservar a cultura de segurança (Pinheiro, 2020).</div>
+    </div></div>
+
+    <div class="secao-titulo">Tema 4 — SGSI e Plano Diretor de Segurança</div>
+    <div class="card"><div class="card-header">4.1 Recomendações para o SGSI</div><div class="card-body">
+      <p class="corpo">O SGSI abrange "planos, estratégias, políticas, medidas e controles voltados para a segurança da informação com o intuito de implementar, monitorar, analisar, manter e melhorar a segurança da informação corporativa" (Pinheiro, 2020).</p>
+      <p class="corpo">Não há padrão único — deve respeitar limitações técnicas, culturais e sociais de cada organização. Ainda assim, permite controlar os riscos dentro de patamares minimamente conhecidos.</p>
+      <div class="importante">⭐ Normalizações orientativas: <strong>ISO/IEC 27000</strong> (internacional) e <strong>ABNT NBR ISO/IEC 27000</strong> (nacional). Fornecem orientações para criação, implantação e manutenção do SGSI. O SGSI funciona como um <strong>ciclo de melhoria contínua (PDCA)</strong>.</div>
+    </div></div>
+
+    <div class="card"><div class="card-header">4.2 Plano Diretor de Segurança</div><div class="card-body">
+      <p class="corpo">Ferramenta importante do SGSI — alguns autores defendem que deve ser sua origem. Define as linhas gerais de defesa dos dados pela alta direção.</p>
+      <p class="corpo">Deve orientar:</p>
+      <table>
+        <tr><th>O que define</th></tr>
+        <tr><td>Bases para especificação de sistemas em relação à segurança</td></tr>
+        <tr><td>Restrições no contato de colaboradores e comunidade com informações sensíveis</td></tr>
+        <tr><td>Grau de tolerância ao risco aceitável para o negócio</td></tr>
+        <tr><td>Componentes do SGSI (código de ética, política de segurança)</td></tr>
+        <tr><td>Planejamento de ações e reações a ameaças e desastres</td></tr>
+      </table>
+      <p class="corpo">Na ótica temporal (Kolbe, 2017): o Plano Diretor tem vigência com <strong>objetivos, metas, responsáveis e indicadores de sucesso</strong> associados.</p>
+    </div></div>
+
+    <div class="card"><div class="card-header">4.3 Os Três Pilares do SGSI</div><div class="card-body">
+      <div class="importante">⭐ O SGSI está apoiado sobre 3 pilares (Pinheiro, 2020):<br>
+        <strong>1. Processo</strong> | <strong>2. Tecnologia</strong> | <strong>3. Cultura organizacional (Pessoas)</strong><br>
+        A segurança será obtida por um conjunto de medidas alinhadas, "de forma a gerir dinamicamente mecanismos de controle abrangentes, permitindo a operação com risco controlado" (Kolbe, 2017).
+      </div>
+    </div></div>
+
+    <div class="secao-titulo">Tema 5 — Política de Segurança da Informação (PSI)</div>
+    <div class="card"><div class="card-header">5.1 O que é a PSI</div><div class="card-body">
+      <p class="corpo">A <strong>PSI (Política de Segurança da Informação)</strong> é a ferramenta de maior importância no SGSI para propagação da cultura de segurança e padronização das ações do corpo funcional.</p>
+      <p class="corpo">É um <strong>código de conduta particular para cada organização</strong>. Tem a função de esclarecer o corpo funcional sobre riscos e procedimentos de segurança recomendados — nos limites das ações profissionais cotidianas, divulgação e acesso às informações corporativas por convidados e comunidade.</p>
+      <p class="corpo">Além de apresentar procedimentos, a PSI precisa estabelecer <strong>processos de treinamento</strong> do corpo funcional para o contato com as informações em todo o seu ciclo de vida (Kolbe, 2017).</p>
+    </div></div>
+
+    <div class="card"><div class="card-header">5.2 Conformidade (Compliance) + 5.3 Componentes da PSI</div><div class="card-body">
+      <p class="corpo"><strong>Compliance</strong> = alinhamento da PSI com o plano diretor, o SGSI e a legislação. Pode ser aferido por <strong>auditoria independente</strong>, facilitando a acreditação da empresa perante entes públicos, clientes, fornecedores e comunidade.</p>
+      <p class="corpo"><strong>Componentes possíveis da PSI</strong> (Pinheiro, 2020):</p>
+      <table>
+        <tr><th>Componente</th></tr>
+        <tr><td>Código de conduta</td></tr>
+        <tr><td>Termos de uso</td></tr>
+        <tr><td>Políticas de redes sociais</td></tr>
+        <tr><td>Regras de perfil</td></tr>
+        <tr><td>Métodos de comunicação interna</td></tr>
+        <tr><td>Regras de backup</td></tr>
+      </table>
+      <p class="corpo">A PSI importa do SGSI a característica de <strong>ciclo de melhoria contínua</strong>. Conteúdos técnicos de operação e configuração de equipamentos são menos comuns na PSI — podem torná-la complexa e desmotivadora para o corpo funcional.</p>
+    </div></div>
+
+    <div class="card"><div class="card-header azul-m">Na Prática — BYOD</div><div class="card-body">
+      <p class="corpo"><strong>BYOD (Bring Your Own Device)</strong> = prática de permitir que colaboradores usem equipamentos pessoais para acessar sistemas administrativos da empresa. Reduz custos e aumenta comodidade, mas gera problemas técnicos de segurança e jurídico-trabalhistas.</p>
+      <div class="importante">⭐ A PSI é a referência para os limites do BYOD. Deve conter:<br>
+        • Definição dos processos e instruções de atuação<br>
+        • Estabelecimento das tecnologias obrigatórias de segurança<br>
+        • Esclarecimento das responsabilidades e penalidades<br>
+        • Limite e hierarquização de acessos<br>
+        • Treinamento permanente
+      </div>
+    </div></div>`,
+    questoes: [
+      { tipo:"mc", enunciado:"Qual a diferença entre vulnerabilidade e ameaça?", opcoes:["São sinônimos — ambas representam riscos à segurança","Vulnerabilidade é a fraqueza no processo de preservação; ameaça é a possibilidade real de exploração dessa fraqueza por um agente","Vulnerabilidade é quantitativa; ameaça é qualitativa","Ameaça é interna; vulnerabilidade é sempre externa"], correta:1, explicacao:"Vulnerabilidade é a fraqueza no processo de preservação das características seguras da informação. Ameaça é a possibilidade real de exploração dessa vulnerabilidade por um agente capaz de explorá-la." },
+      { tipo:"mc", enunciado:"Qual a diferença entre risco/impacto e vulnerabilidade/ameaça em termos estatísticos?", opcoes:["Todas são variáveis quantitativas","Todas são variáveis categóricas","Vulnerabilidade e ameaça são variáveis categóricas (não numéricas); risco e impacto são variáveis quantitativas (numéricas)","Risco e impacto são categóricos; vulnerabilidade e ameaça são quantitativos"], correta:2, explicacao:"Vulnerabilidade e ameaça são variáveis categóricas (não representadas diretamente em números). Risco e impacto são variáveis quantitativas — representadas numericamente na matriz de gestão de risco." },
+      { tipo:"mc", enunciado:"Qual a diferença entre ataque ativo e ataque passivo?", opcoes:["Ataque ativo é externo; ataque passivo é interno","Ataque ativo altera as características dos dados (subtração ou modificação); ataque passivo apenas coleta informações sem alterar","Ataque ativo usa malware; ataque passivo usa engenharia social","Ataque passivo é mais perigoso que o ativo"], correta:1, explicacao:"Ataque ativo tem intenção de alterar as características dos dados por subtração ou modificação. Ataque passivo busca apenas acesso indevido, coletando informações reservadas sem alterar nada." },
+      { tipo:"mc", enunciado:"O que é o princípio do 'menor privilégio'?", opcoes:["Usar o sistema de segurança mais barato disponível","Ceder a cada sistema ou colaborador os menores direitos de acesso possíveis, revisando sempre para baixo","Proteger apenas os dados menos importantes primeiro","Dar acesso completo apenas ao CSO"], correta:1, explicacao:"Pelo princípio do menor privilégio, o administrador deve ceder os menores direitos de acesso possíveis e revisá-los para baixo sempre que a redução não impactar a operação." },
+      { tipo:"mc", enunciado:"O que é o SGSI?", opcoes:["Software de gerenciamento de senhas corporativas","Sistema Gerenciador de Segurança Interna — monitora câmeras e acessos físicos","Sistema de Gestão de Segurança da Informação — compêndio de procedimentos e normas técnicas e funcionais conhecido por toda a organização","Sigla para o cargo de Chief Security Officer"], correta:2, explicacao:"SGSI (Sistema de Gestão de Segurança da Informação) é o compêndio de procedimentos e normas, técnicas e funcionais, conhecido por toda a organização, considerando softwares, equipamentos e corpo funcional." },
+      { tipo:"mc", enunciado:"Quais são os 3 pilares do SGSI?", opcoes:["Hardware, Software e Redes","Confidencialidade, Integridade e Disponibilidade","Processo, Tecnologia e Cultura organizacional (Pessoas)","Prevenção, Detecção e Resposta"], correta:2, explicacao:"Os 3 pilares do SGSI são: Processo, Tecnologia e Cultura organizacional (Pessoas). A cultura de segurança precisa se impor sempre que um procedimento é criado." },
+      { tipo:"mc", enunciado:"O que é compliance no contexto da PSI?", opcoes:["Software de monitoramento de atividades dos colaboradores","Alinhamento da PSI com o plano diretor, o SGSI e a legislação — pode ser aferido por auditoria independente","Certificação técnica obrigatória para o CSO","Política de senhas fortes exigida pela ISO 27000"], correta:1, explicacao:"Compliance é o alinhamento jurídico e empresarial da PSI com o plano diretor, o SGSI e a legislação. Pode ser aferido por auditoria independente, facilitando a acreditação da empresa." },
+      { tipo:"mc", enunciado:"O que é BYOD e qual seu risco?", opcoes:["Backup Your Own Data — política de backup pessoal dos colaboradores","Bring Your Own Device — uso de equipamentos pessoais para acessar sistemas da empresa; gera problemas técnicos de segurança e jurídico-trabalhistas","Build Your Own Dashboard — ferramenta de BI personalizada","Buy Your Own Device — programa de subsídio para compra de equipamentos"], correta:1, explicacao:"BYOD (Bring Your Own Device) é a prática de permitir que colaboradores usem equipamentos pessoais para acessar sistemas administrativos. Reduz custos mas gera problemas técnicos de segurança e jurídico-trabalhistas." },
+      { tipo:"mc", enunciado:"Por que o colaborador interno é considerado a ameaça mais importante à segurança?", opcoes:["Porque tem acesso a senhas do sistema","Porque age de forma contínua e diária em todo o ciclo de vida da informação, na configuração de equipamentos e nos cuidados de confidencialidade","Porque pode vender dados para concorrentes","Porque não passa por processos de seleção rigorosos"], correta:1, explicacao:"O colaborador interno age de forma contínua e diária em todo o ciclo de vida da informação — na configuração de equipamentos, softwares e nos cuidados de confidencialidade. 'A ameaça se encontra a poucos metros, ou a um click de distância.'" },
+      { tipo:"dissertativa", enunciado:"Explique o que é gestão de risco e como a matriz de risco × impacto funciona.", gabarito:"Gestão de risco é o processo de associar estatísticas de risco e grau de impacto, considerando vulnerabilidade e ameaça. A matriz multiplica o grau de risco (1-5) pelo grau de impacto (1-5), resultando em um valor entre 1 e 25. Exemplo: risco alto (4) × impacto médio (3) = 12. Esse resultado orienta a priorização das contramedidas. O risco nunca é zerado — por ser estatístico, sempre persiste algum grau de possibilidade de ataque." },
+      { tipo:"dissertativa", enunciado:"Cite os 6 princípios das estratégias de segurança da informação e explique cada um.", gabarito:"1. Menor privilégio: ceder os menores direitos de acesso possíveis, revisando para baixo quando não impacta a operação. 2. Defesa em profundidade: justapor diferentes mecanismos em sequência ou níveis quando um ataque é percebido. 3. Identificação do elo mais fraco: conhecer vulnerabilidades ignoradas pelo baixo impacto — podem ser portas de entrada para ataques maiores. 4. Participação universal: atendimento da política de segurança por todo o corpo funcional nos três níveis (estratégico, tático e operacional). 5. Simplicidade: procedimentos simples o suficiente para serem seguidos. 6. Diversidade de defesa: usar mais de uma estratégia para a mesma ameaça, contemplando aspectos distintos de perfis maliciosos." },
+      { tipo:"dissertativa", enunciado:"O que é a PSI, quais seus componentes e o que é compliance?", gabarito:"PSI (Política de Segurança da Informação) é a ferramenta mais importante do SGSI — um código de conduta particular para cada organização que esclarece o corpo funcional sobre riscos e procedimentos de segurança. Componentes possíveis: código de conduta, termos de uso, políticas de redes sociais, regras de perfil, métodos de comunicação interna e regras de backup. Compliance é o alinhamento da PSI com o plano diretor, o SGSI e a legislação — pode ser aferido por auditoria independente, facilitando a acreditação da empresa perante clientes, fornecedores e entes públicos." }
     ]
   }
 
