@@ -89,7 +89,7 @@
     <button class="btn-aula" onclick="selecionarAula(2)">Aula 2</button>
     <button class="btn-aula" onclick="selecionarAula(3)">Aula 3</button>
     <button class="btn-aula" onclick="selecionarAula(4)">Aula 4</button>
-    <button class="btn-aula bloqueada">Aula 5</button>
+    <button class="btn-aula" onclick="selecionarAula(5)">Aula 5</button>
     <button class="btn-aula bloqueada">Aula 6</button>
   </div>
   <div id="conteudo"></div>
@@ -608,6 +608,147 @@ const dados = {
       { tipo:"dissertativa", enunciado:"Explique o que é gestão de risco e como a matriz de risco × impacto funciona.", gabarito:"Gestão de risco é o processo de associar estatísticas de risco e grau de impacto, considerando vulnerabilidade e ameaça. A matriz multiplica o grau de risco (1-5) pelo grau de impacto (1-5), resultando em um valor entre 1 e 25. Exemplo: risco alto (4) × impacto médio (3) = 12. Esse resultado orienta a priorização das contramedidas. O risco nunca é zerado — por ser estatístico, sempre persiste algum grau de possibilidade de ataque." },
       { tipo:"dissertativa", enunciado:"Cite os 6 princípios das estratégias de segurança da informação e explique cada um.", gabarito:"1. Menor privilégio: ceder os menores direitos de acesso possíveis, revisando para baixo quando não impacta a operação. 2. Defesa em profundidade: justapor diferentes mecanismos em sequência ou níveis quando um ataque é percebido. 3. Identificação do elo mais fraco: conhecer vulnerabilidades ignoradas pelo baixo impacto — podem ser portas de entrada para ataques maiores. 4. Participação universal: atendimento da política de segurança por todo o corpo funcional nos três níveis (estratégico, tático e operacional). 5. Simplicidade: procedimentos simples o suficiente para serem seguidos. 6. Diversidade de defesa: usar mais de uma estratégia para a mesma ameaça, contemplando aspectos distintos de perfis maliciosos." },
       { tipo:"dissertativa", enunciado:"O que é a PSI, quais seus componentes e o que é compliance?", gabarito:"PSI (Política de Segurança da Informação) é a ferramenta mais importante do SGSI — um código de conduta particular para cada organização que esclarece o corpo funcional sobre riscos e procedimentos de segurança. Componentes possíveis: código de conduta, termos de uso, políticas de redes sociais, regras de perfil, métodos de comunicação interna e regras de backup. Compliance é o alinhamento da PSI com o plano diretor, o SGSI e a legislação — pode ser aferido por auditoria independente, facilitando a acreditação da empresa perante clientes, fornecedores e entes públicos." }
+    ]
+  }
+,
+
+  5: {
+    titulo: "Aula 5 — A Transformação dos Sistemas de Informação e os Desafios da Segurança na Era da IA",
+    professor: "Prof. Gian Carlo Brustolin",
+    resumo: `
+    <div class="secao-titulo">Introdução</div>
+    <div class="card"><div class="card-header azul-m">Contexto da Aula</div><div class="card-body">
+      <p class="corpo">Esta aula apresenta os sistemas mais importantes para apoio à decisão e administração empresarial, o estado da arte da inteligência artificial e sua relação com a segurança da informação, além das particularidades de segurança em ambientes industriais.</p>
+    </div></div>
+
+    <div class="secao-titulo">Tema 1 — Evolução dos Sistemas da Informação</div>
+    <div class="card"><div class="card-header">1.1 Evolução dos Sistemas Informacionais</div><div class="card-body">
+      <p class="corpo">Na década de 1970, mainframes ocupavam salas inteiras com capacidade inferior a uma calculadora científica atual. A capacidade computacional cresceu para acomodar sistemas mais complexos — e sistemas mais complexos exigiram maior capacidade, criando um <strong>ciclo de desenvolvimento sinérgico</strong>.</p>
+      <p class="corpo">Evolução das aplicações:</p>
+      <table>
+        <tr><th>Geração</th><th>Sistema</th><th>Característica</th></tr>
+        <tr><td>1ª</td><td><strong>Sistemas funcionais</strong></td><td>Atendiam funções específicas isoladas (ex: controle de estoques, acompanhamento financeiro)</td></tr>
+        <tr><td>2ª</td><td><strong>MRP / BOM</strong></td><td>Integraram parte dos sistemas funcionais para planejamento integrado</td></tr>
+        <tr><td>3ª</td><td><strong>ERP</strong></td><td>Alinhamento completo da empresa — insumos, produção, vendas, RH etc.</td></tr>
+        <tr><td>Paralela</td><td><strong>CRM</strong></td><td>Predição de vendas e acompanhamento de ciclo de vida de clientes</td></tr>
+        <tr><td>Paralela</td><td><strong>SCM</strong></td><td>Sistemas de cadeia de suprimentos para grandes corporações</td></tr>
+      </table>
+    </div></div>
+
+    <div class="card"><div class="card-header">1.2 Sistemas de Conhecimento</div><div class="card-body">
+      <p class="corpo">Sistemas baseados em conhecimento contêm partes significativas do conhecimento do negócio. São representados por <strong>BIs (Business Intelligence)</strong> ou aplicações de <strong>IA</strong> — sistemas especialistas, redes neurais e algoritmos evolucionários naturais.</p>
+      <div class="importante">⭐ A produção de valor migrou gradativamente das mãos humanas para os sistemas informacionais, conforme estes ganharam maior capacidade de processamento.</div>
+    </div></div>
+
+    <div class="secao-titulo">Tema 2 — Supersistemas</div>
+    <div class="card"><div class="card-header">2.1 ERP</div><div class="card-body">
+      <p class="corpo">O primeiro ERP comercial foi desenvolvido pela <strong>SAP na década de 1990</strong>. Não é apenas a justaposição de sistemas funcionais — a integração dinâmica permite sinergias entre processos distantes (ex: compra de insumos e entrega de mercadorias).</p>
+      <p class="corpo">ERPs modernos têm segmentos em <strong>nuvem</strong>, permitindo acesso ubíquo e decisões online em tempo real. Também integram sistemas de compliance em todas as fases do negócio.</p>
+      <div class="destaque">⚠️ A exposição de dados corporativos em <strong>nuvens públicas</strong> cria novas vulnerabilidades e ameaças — devem ser tratadas na PSI com investimentos em segurança e equipamentos de proteção.</div>
+    </div></div>
+
+    <div class="card"><div class="card-header">2.2 BI (Business Intelligence)</div><div class="card-body">
+      <p class="corpo">BI é um <strong>"termo guarda-chuva que combina arquiteturas, ferramentas, bases de dados, ferramentas analíticas, aplicativos e metodologias"</strong> para acesso seletivo a dados de suporte à decisão (Sharda, Telen e Turban, 2019).</p>
+      <p class="corpo"><strong>Arquitetura de um BI:</strong> Data Warehouse (DW) + ferramentas de análise + BPM (Business Performance Management) + dashboard amigável.</p>
+      <p class="corpo">Permitem boa flexibilidade de customização e visões pré-programadas chamadas de <strong>shells</strong>. Há soluções <strong>SaaS (Software as a Service)</strong> — aluguel de BIs — mas exigem compartilhamento de informações restritas, impactando a segurança.</p>
+      <div class="destaque">⚠️ A eleição de soluções SaaS precisa ser avaliada sob duplo aspecto: <strong>econômico e de segurança</strong>.</div>
+    </div></div>
+
+    <div class="card"><div class="card-header">2.3 E-commerce</div><div class="card-body">
+      <p class="corpo">Primeiras iniciativas de marketing eletrônico em <strong>1995</strong>, com o portal da Netscape. A pandemia de Covid-19 consolidou o e-commerce como opção viável de aquisição de bens.</p>
+      <p class="corpo">Para ser efetivo, o e-commerce precisa se conectar aos sistemas internos da empresa (estoques, faturamento, pedidos de entrega). Essa conexão entre rede pública (internet) e rede interna gera:</p>
+      <div class="destaque">⚠️ Complexidade de integração + novas vulnerabilidades + aumento significativo de ameaças.<br>A decisão pela implementação de e-commerce deve ser objeto do <strong>Plano Diretor de Segurança</strong>.</div>
+    </div></div>
+
+    <div class="secao-titulo">Tema 3 — Sistemas de Conhecimento Baseados em IA</div>
+    <div class="card"><div class="card-header">3.1 Sistemas Especialistas (KBS)</div><div class="card-body">
+      <p class="corpo">KBS (Knowledge Based Systems) = sistemas especialistas. A inteligência é extraída de <strong>especialistas humanos</strong> e codificada em uma aplicação que simula seu processo de dedução.</p>
+      <p class="corpo">Limitação: capacidade limitada pelo conhecimento embarcado na concepção. Exigem <strong>manutenção humana constante</strong> da base de conhecimento — o que é uma vulnerabilidade.</p>
+      <table>
+        <tr><th>Categoria</th><th>Como funciona</th><th>Exemplo de uso</th></tr>
+        <tr><td><strong>Derivação</strong></td><td>Diagnóstico — usuário responde perguntas que conduzem o sistema à solução mais provável</td><td>Diagnóstico médico, suporte técnico</td></tr>
+        <tr><td><strong>Formação</strong></td><td>Sistema justaopõe conceitos aplicáveis para propor uma solução</td><td>Elaboração de projetos e design</td></tr>
+      </table>
+      <div class="importante">⭐ Um sistema especialista pode preservar o conhecimento de profissionais de alto desempenho, orientando novos colaboradores e mantendo a cultura organizacional.</div>
+    </div></div>
+
+    <div class="card"><div class="card-header">3.2 Machine Learning (ML)</div><div class="card-body">
+      <p class="corpo">Algoritmos de ML criam uma <strong>árvore de busca ou conjunto de regras</strong> a partir de uma massa de dados tratados, permitindo entender características dos dados e fazer predições (Faceli et al., 2021).</p>
+      <p class="corpo">Funciona por <strong>treinamento</strong>: separa-se uma amostra do espaço de hipóteses, sonda possíveis classificações e aplica a melhor classificação sobre novos eventos.</p>
+      <div class="destaque"><strong>Exemplo:</strong> Dados de frequentadores de shopping (idade, renda, esporte preferido). Se soubermos quais compram em determinada loja, treinamos um algoritmo para prever se um novo visitante será cliente daquela loja e qual produto provavelmente comprará.</div>
+      <p class="corpo"><strong>Restrição:</strong> exige tratamento cuidadoso das bases de dados antes do uso — trabalho que demanda profissionais especializados em <strong>ciência de dados</strong>.</p>
+    </div></div>
+
+    <div class="card"><div class="card-header">3.3 Redes Neurais (RNA) + 3.4 Deep Learning</div><div class="card-body">
+      <p class="corpo">Primeira tentativa na <strong>década de 1940</strong> — cientistas <strong>McColloch e Pitts</strong> modelaram matematicamente a célula neural. A capacidade computacional da época inviabilizou a ideia, que só se tornou computável no início do século XXI.</p>
+      <p class="corpo">O aprendizado das RNAs está ligado à intensidade de conexão entre neurônios — as <strong>sinapses neurais</strong>, simuladas pelos <strong>pesos sinápticos (wi,j)</strong>.</p>
+      <p class="corpo">RNAs com uma ou duas dezenas de neurônios podem resolver problemas de boa complexidade. Aprendem pelo ajuste dos pesos sinápticos com exemplos — após treinadas, são capazes de <strong>generalizar</strong> (estimar corretamente a saída para uma entrada desconhecida).</p>
+      <div class="importante">⭐ <strong>Deep Learning</strong> = redes neurais artificiais <strong>profundas (várias camadas)</strong> dedicadas à extração autônoma de características de conjuntos complexos de dados — surgiu da observação de que RNAs com várias camadas extraem significado autonomamente, sem necessidade de compreensão prévia das bases de dados.</div>
+    </div></div>
+
+    <div class="secao-titulo">Tema 4 — IA e Segurança da Informação</div>
+    <div class="card"><div class="card-header">4.1 Privacidade e Algoritmos de IA</div><div class="card-body">
+      <p class="corpo">Algoritmos de IA, especialmente RNAs profundas, exigem <strong>esforços computacionais consideráveis</strong> — tempos de processamento de um dia ou mais. Isso afeta a <strong>disponibilidade</strong> dos dados (uma das 7 características da informação segura).</p>
+      <div class="importante">⭐ <strong>LGPD (Lei n. 13.709/2018)</strong> no contexto de IA:<br>
+        • Vincula coleta e uso de dados pessoais à <strong>autorização livre e inequívoca</strong><br>
+        • Exige que a <strong>finalidade de uso</strong> seja expressamente determinada<br>
+        • Permite a <strong>reversão do consentimento</strong> a qualquer tempo (arts. 2º e 9º)<br>
+        • Quando a identificação do proprietário não é necessária: processo auditável de <strong>anonimização</strong> deve ser realizado — desvincula o tratamento da autorização exigida
+      </div>
+      <p class="corpo">A corporação se vê sujeita a <strong>consequências jurídicas</strong> em caso de exposição de dados coletados.</p>
+    </div></div>
+
+    <div class="card"><div class="card-header">4.2 Algoritmos de IA para Apoio à Segurança</div><div class="card-body">
+      <p class="corpo">A IA também pode ser usada diretamente para proteger dados. Exemplos (Valdati, 2020):</p>
+      <table>
+        <tr><th>Aplicação</th><th>Como funciona</th></tr>
+        <tr><td><strong>Detecção de fraudes em cartões</strong></td><td>RNA treinada com padrão de compras do usuário — detecta compras fora do padrão</td></tr>
+        <tr><td><strong>Câmeras de segurança</strong></td><td>RNA treinada com imagens normais e anômalas — identifica comportamento indesejado e dispara contramedidas</td></tr>
+        <tr><td><strong>Tráfego de rede anômalo</strong></td><td>Detecção ativa de tráfegos fora do padrão</td></tr>
+        <tr><td><strong>Acessos incomuns de usuários</strong></td><td>RNA treinada com acessos costumeiros — acesso nunca antes realizado vai para <strong>quarentena virtual</strong> para análise</td></tr>
+      </table>
+      <div class="importante">⭐ Todas essas aplicações são exemplos de <strong>detecção de outliers</strong> — procedimento estatístico que identifica instâncias fora da região mais provável de existência (comportamentos anômalos).</div>
+    </div></div>
+
+    <div class="secao-titulo">Tema 5 — Segurança da Informação em Indústrias</div>
+    <div class="card"><div class="card-header">5.1 Ambiente Industrial</div><div class="card-body">
+      <p class="corpo">Uma indústria tem parte do negócio similar a empresas comerciais (insumos, estoque, folha de pagamento). Porém, a <strong>atividade fabril</strong> é única — o chão de fábrica exige equipamentos resistentes a temperatura, radiações e vibrações.</p>
+      <div class="destaque">⚠️ Na indústria, perdas na consistência de dados podem ter consequências não apenas econômicas, mas também <strong>ecológicas e à saúde humana</strong>.<br>Exemplo: instrução de desligamento de máquina em sobrecarga perde integridade na rede — a máquina não é desligada — consequências graves para operadores, instalação e meio ambiente.</div>
+      <p class="corpo">Necessidade de <strong>visibilidade e controle</strong> de sistemas, aplicações e usuários em toda a instalação — incluindo processos de rede, protocolos e sistemas de automação — <strong>em tempo real</strong>, com auxílio de algoritmos de predição de anomalias (Branquinho e Branquinho, 2021).</p>
+    </div></div>
+
+    <div class="card"><div class="card-header">5.2 Atualização de Sistemas Industriais</div><div class="card-body">
+      <p class="corpo">Atualizar sistemas industriais é muito mais complexo que sistemas comuns — exige <strong>paradas de máquina programadas</strong>, afetando produção e qualidade. Por isso, muitas infraestruturas convivem com sistemas operacionais e equipamentos antigos.</p>
+      <p class="corpo">Controladores de produção são equipamentos e softwares <strong>certificados pelo fabricante da máquina industrial</strong>. Isso cria vulnerabilidades de difícil contorno — qualquer alteração precisa ser submetida ao fabricante, perdendo <strong>tempo vital para o bloqueio de invasões</strong>.</p>
+      <div class="destaque">⚠️ Esses fatos reforçam a necessidade de que o ambiente cibernético fabril goze de <strong>isolamento e proteção diferenciada</strong>.</div>
+    </div></div>
+
+    <div class="card"><div class="card-header">5.3 Camadas ISA</div><div class="card-body">
+      <p class="corpo">A <strong>ISA (International Society of Automation)</strong> propôs uma clara divisão entre redes que suportam dados empresariais e a rede dedicada à produção.</p>
+      <div class="importante">⭐ A segregação ISA divide as redes em <strong>6 níveis</strong>:<br>
+        • <strong>2 níveis</strong> — rede não fabril (administrativa)<br>
+        • <strong>DMZ (área de exclusão)</strong> — entre as redes, com <strong>firewall interno</strong> e eventualmente DW de compartilhamento<br>
+        • <strong>4 níveis</strong> — rede de produção fabril<br><br>
+        Dados que precisam transpor a DMZ devem fazê-lo de forma <strong>indireta</strong> — armazenados em um DW e depois lidos pela outra rede, respeitando restrições do firewall.
+      </div>
+    </div></div>
+
+    <div class="card"><div class="card-header azul-m">Na Prática</div><div class="card-body">
+      <p class="corpo">Com os conhecimentos adquiridos, é possível avaliar os procedimentos de segurança ao seu redor. Se já atua profissionalmente: observe restrições e permissões de acesso, login, sistemas disponíveis, termos de uso e códigos de procedimento — todos envolvidos na estratégia de segurança da empresa. Se ainda não atua: observe exemplos cotidianos como acesso a materiais da universidade, acesso à internet e exigências de identificação civil. Relacione essas observações com os conceitos estudados.</p>
+    </div></div>`,
+    questoes: [
+      { tipo:"mc", enunciado:"Qual foi o primeiro ERP comercial e quando foi desenvolvido?", opcoes:["Oracle, na década de 1980","SAP, na década de 1990","Microsoft, no início dos anos 2000","IBM, na década de 1970"], correta:1, explicacao:"O primeiro ERP comercial foi desenvolvido pela SAP na década de 1990 e ainda é uma solução empresarial de alto valor." },
+      { tipo:"mc", enunciado:"O que é SaaS no contexto de BIs e qual seu risco?", opcoes:["Software as a Service — aluguel de BIs; exige compartilhamento de informações restritas, impactando a segurança","Sistema as a Software — compra parcelada de licenças de BI","Security as a Service — proteção terceirizada de dados","Storage as a Service — armazenamento em nuvem de dados corporativos"], correta:0, explicacao:"SaaS (Software as a Service) permite o aluguel de BIs. O risco é que exige compartilhamento de informações restritas — a eleição dessa solução deve considerar o duplo aspecto econômico e de segurança." },
+      { tipo:"mc", enunciado:"Por que a implementação de e-commerce deve ser objeto do Plano Diretor de Segurança?", opcoes:["Porque aumenta os custos de TI da empresa","Porque a conexão entre rede pública (internet) e rede interna gera novas vulnerabilidades e aumento significativo de ameaças","Porque exige contratação de novos colaboradores de TI","Porque o e-commerce é proibido pela LGPD sem autorização especial"], correta:1, explicacao:"A conexão entre a rede pública (internet) e a rede interna da empresa gera complexidade de integração, novas vulnerabilidades e aumento significativo de ameaças — por isso deve ser objeto do Plano Diretor de Segurança." },
+      { tipo:"mc", enunciado:"Qual a diferença entre Machine Learning e Deep Learning?", opcoes:["Machine Learning usa redes neurais; Deep Learning usa sistemas especialistas","Machine Learning cria regras a partir de dados tratados com fase de treinamento; Deep Learning usa redes neurais de várias camadas que extraem características autonomamente","Machine Learning é mais avançado que Deep Learning","São sinônimos — ambos usam redes neurais artificiais"], correta:1, explicacao:"Machine Learning cria regras/árvores de busca a partir de dados tratados, com fase de treinamento. Deep Learning usa RNAs profundas (várias camadas) que extraem características autonomamente, sem necessidade de compreensão prévia das bases de dados." },
+      { tipo:"mc", enunciado:"O que são pesos sinápticos (wi,j) em uma RNA?", opcoes:["Dados de entrada da rede neural","A velocidade de processamento dos neurônios artificiais","Valores que simulam a intensidade das sinapses biológicas — determinam a capacidade de aprendizado da RNA","O número de camadas da rede neural profunda"], correta:2, explicacao:"Os pesos sinápticos (wi,j) simulam a intensidade das sinapses biológicas. O aprendizado das RNAs se dá pelo ajuste desses pesos com base em exemplos." },
+      { tipo:"mc", enunciado:"O que é detecção de outliers e como ela se relaciona com segurança?", opcoes:["Técnica para aumentar a velocidade de processamento dos BDs","Procedimento estatístico que identifica instâncias fora da região mais provável de existência — detecta comportamentos anômalos como fraudes e acessos incomuns","Método de criptografia usado em redes industriais","Sistema de backup automático para dados críticos"], correta:1, explicacao:"Detecção de outliers é um procedimento estatístico que identifica instâncias fora da região mais provável de existência. É usado em segurança para detectar fraudes em cartões, acessos incomuns e tráfego de rede anômalo." },
+      { tipo:"mc", enunciado:"Por que sistemas industriais são mais difíceis de atualizar que sistemas comuns?", opcoes:["Porque são mais caros e complexos tecnicamente","Porque exigem paradas de máquina programadas e os controladores são certificados pelo fabricante — qualquer alteração precisa ser submetida a ele, perdendo tempo vital","Porque os fabricantes cobram taxas altíssimas de atualização","Porque a LGPD proíbe atualizações sem auditoria prévia"], correta:1, explicacao:"Sistemas industriais exigem paradas de máquina programadas. Controladores são certificados pelo fabricante da máquina — qualquer alteração precisa ser submetida a ele, criando vulnerabilidades de difícil contorno e perdendo tempo vital para bloqueio de invasões." },
+      { tipo:"mc", enunciado:"O que é a DMZ nas camadas ISA e qual sua função?", opcoes:["Uma rede exclusiva para dados de RH e financeiro","Área de exclusão entre a rede administrativa e a rede fabril, com firewall interno — impede o trâmite direto de dados entre as redes","Sistema de backup automático entre redes industriais","Protocolo de comunicação entre máquinas de produção"], correta:1, explicacao:"A DMZ (área de exclusão) fica entre os 2 níveis da rede administrativa e os 4 níveis da rede fabril. Contém um firewall interno e eventualmente um DW de compartilhamento — dados que precisam transpor a DMZ devem fazê-lo indiretamente." },
+      { tipo:"mc", enunciado:"O que a LGPD exige no contexto do uso de IA para processar dados pessoais?", opcoes:["Proíbe completamente o uso de IA para processar dados pessoais","Autorização livre e inequívoca do titular, finalidade de uso expressamente determinada e possibilidade de reversão do consentimento a qualquer tempo","Apenas uma notificação prévia ao titular dos dados","Aprovação prévia do governo federal para cada projeto de IA"], correta:1, explicacao:"A LGPD vincula coleta e uso de dados à autorização livre e inequívoca, exige que a finalidade de uso seja expressamente determinada e permite a reversão do consentimento a qualquer tempo (arts. 2º e 9º)." },
+      { tipo:"dissertativa", enunciado:"Explique o que são sistemas especialistas (KBS), suas duas categorias e qual é sua principal vulnerabilidade.", gabarito:"KBS (Knowledge Based Systems) são sistemas especialistas nos quais a inteligência é extraída de especialistas humanos e codificada para simular seu processo de dedução. Duas categorias: 1. Derivação — processo de diagnóstico onde o usuário responde perguntas que conduzem o sistema à solução mais provável. 2. Formação — sistema justapõe conceitos aplicáveis para propor uma solução (ex: elaboração de projetos e design). Principal vulnerabilidade: dependem de manutenção humana constante na base de conhecimento para permanecerem operacionais — o que os torna menos preferidos em relação a técnicas de IA mais autônomas." },
+      { tipo:"dissertativa", enunciado:"O que é Machine Learning? Explique o processo de treinamento com um exemplo prático.", gabarito:"Machine Learning são algoritmos capazes de criar uma árvore de busca ou conjunto de regras a partir de uma massa de dados tratados, permitindo entender características e fazer predições. O treinamento separa uma amostra do espaço de hipóteses para sondar possíveis classificações — a melhor classificação é então aplicada sobre novos eventos. Exemplo: dados de frequentadores de shopping (idade, renda, esporte). Sabendo quais compram em determinada loja, treina-se o algoritmo para prever se um novo visitante será cliente e qual produto provavelmente comprará." },
+      { tipo:"dissertativa", enunciado:"Explique as camadas ISA e por que o ambiente industrial precisa de proteção diferenciada.", gabarito:"A ISA (International Society of Automation) propôs a divisão das redes em 6 níveis: 2 níveis para a rede administrativa, uma DMZ (área de exclusão) com firewall interno entre as redes, e 4 níveis para a rede de produção fabril. Dados que precisam transpor a DMZ devem fazê-lo indiretamente — armazenados em um DW e lidos pela outra rede respeitando as restrições do firewall. O ambiente industrial precisa de proteção diferenciada porque perdas na consistência de dados podem ter consequências ecológicas e à saúde humana (além das econômicas), e porque as dificuldades de atualização — paradas de máquina e certificações do fabricante — criam vulnerabilidades de difícil contorno." }
     ]
   }
 
